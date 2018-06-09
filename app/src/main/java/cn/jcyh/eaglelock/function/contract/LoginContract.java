@@ -28,6 +28,9 @@ public interface LoginContract {
     }
 
     interface Presenter extends IPresenter<View, Model> {
+
+        void initView();
+
         void login();
 
         void regist();

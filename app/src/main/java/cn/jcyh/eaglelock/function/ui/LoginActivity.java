@@ -11,6 +11,8 @@ import butterknife.OnCheckedChanged;
 import butterknife.OnClick;
 import cn.jcyh.eaglelock.R;
 import cn.jcyh.eaglelock.base.BaseActivity;
+import cn.jcyh.eaglelock.control.ControlCenter;
+import cn.jcyh.eaglelock.entity.User;
 import cn.jcyh.eaglelock.function.contract.LoginContract;
 import cn.jcyh.eaglelock.function.presenter.LoginPresenter;
 import cn.jcyh.eaglelock.util.T;
@@ -41,8 +43,16 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         return R.layout.activity_login;
     }
 
+    @Override
+    protected void init() {
+        User userInfo = ControlCenter.getControlCenter().getUserInfo();
+        if (userInfo!=null){
+            etUserNameLogin.setText(userInfo.get);
+        }
 
-//    @OnClick({R.id.tv_send_code})
+    }
+
+    //    @OnClick({R.id.tv_send_code})
 //    public void onClick(View v) {
 //        switch (v.getId()) {
 //            case R.id.tv_send_code:

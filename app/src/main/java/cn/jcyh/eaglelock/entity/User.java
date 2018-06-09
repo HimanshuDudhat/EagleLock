@@ -14,6 +14,30 @@ public class User {
     private String scope;
     private String refreshtoken;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    public String getAccount() {
+        return account;
+    }
+
+    public void setAccount(String account) {
+        this.account = account;
+    }
+
+    public String getNickName() {
+        return nickName;
+    }
+
+    public void setNickName(String nickName) {
+        this.nickName = nickName;
+    }
+
     public String getAccess_token() {
         return access_token;
     }
@@ -34,7 +58,7 @@ public class User {
         return expiresin;
     }
 
-    public void setExpires_in(int expires_in) {
+    public void setExpiresin(int expiresin) {
         this.expiresin = expiresin;
     }
 
@@ -46,18 +70,21 @@ public class User {
         this.scope = scope;
     }
 
-    public String getRefresh_token() {
+    public String getRefreshtoken() {
         return refreshtoken;
     }
 
-    public void setRefresh_token(String refresh_token) {
-        this.refreshtoken = refresh_token;
+    public void setRefreshtoken(String refreshtoken) {
+        this.refreshtoken = refreshtoken;
     }
 
     @Override
     public String toString() {
         return "User{" +
-                "access_token='" + access_token + '\'' +
+                "id=" + id +
+                ", account='" + account + '\'' +
+                ", nickName='" + nickName + '\'' +
+                ", access_token='" + access_token + '\'' +
                 ", openid=" + openid +
                 ", expiresin=" + expiresin +
                 ", scope='" + scope + '\'' +

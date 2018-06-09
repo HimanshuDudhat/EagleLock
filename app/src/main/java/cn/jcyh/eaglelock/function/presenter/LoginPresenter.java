@@ -16,6 +16,14 @@ import cn.jcyh.eaglelock.util.L;
 public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContract.Model> implements LoginContract.Presenter {
 
     @Override
+    public void initView() {
+        User userInfo = ControlCenter.getControlCenter().getUserInfo();
+        if (userInfo!=null){
+            boolean isAutoLogin = ControlCenter.getControlCenter().getIsAutoLogin();
+        }
+    }
+
+    @Override
     public void login() {
         String loginUserName = mView.getLoginUserName();
         String loginPassword = mView.getLoginPassword();
