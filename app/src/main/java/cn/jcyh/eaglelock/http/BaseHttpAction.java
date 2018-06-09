@@ -8,6 +8,7 @@ import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
+import cn.jcyh.eaglelock.util.Util;
 import okhttp3.OkHttpClient;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -19,11 +20,10 @@ import retrofit2.converter.gson.GsonConverterFactory;
 abstract class BaseHttpAction {
     IHttpRequest mHttpRequest;
 
-    public static boolean isNetworkAvailable(Context context) {
+    public static boolean isNetworkAvailable() {
 
-        ConnectivityManager manager = (ConnectivityManager) context
-                .getApplicationContext().getSystemService(
-                        Context.CONNECTIVITY_SERVICE);
+        ConnectivityManager manager = (ConnectivityManager) Util.getApp().getSystemService(
+                Context.CONNECTIVITY_SERVICE);
 
         if (manager == null) {
             return false;
@@ -38,7 +38,7 @@ abstract class BaseHttpAction {
         return true;
     }
 
-    BaseHttpAction(Context context) {
+    BaseHttpAction() {
         OkHttpClient.Builder builder = new OkHttpClient.Builder();
         builder.connectTimeout(10, TimeUnit.SECONDS)
                 .writeTimeout(10, TimeUnit.SECONDS)

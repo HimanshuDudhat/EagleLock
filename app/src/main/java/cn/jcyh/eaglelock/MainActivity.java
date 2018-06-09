@@ -8,4 +8,8 @@ public class MainActivity extends BaseActivity {
     public int getLayoutId() {
         return R.layout.activity_main;
     }
+
+    @Override
+    protected void createPresenter() {
+    }
 }

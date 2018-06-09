@@ -6,6 +6,9 @@ import android.content.Context;
 import android.support.annotation.NonNull;
 
 import cn.jcyh.eaglelock.BuildConfig;
+import cn.jcyh.eaglelock.constant.Config;
+import cn.jcyh.eaglelock.http.api.MyLockAPI;
+import cn.jcyh.eaglelock.http.api.MyLockCallback;
 
 
 /**
@@ -26,6 +29,7 @@ public class Util {
         }
         if (BuildConfig.DEBUG)
             L.plant(new L.DebugTree());
+        MyLockAPI.init(new MyLockCallback(), Config.CLIENT_ID, Config.CLIENT_SECRET);
 //        //初始化数据库
 //        DBManager.initDB(app);
 //        PushManager.initPush();

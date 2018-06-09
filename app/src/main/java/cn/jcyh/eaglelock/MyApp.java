@@ -11,7 +11,6 @@ import cn.jcyh.eaglelock.util.Util;
  */
 
 public class MyApp extends Application {
-    private static final String TAG = "MyApp";
 
     @Override
     public void onCreate() {

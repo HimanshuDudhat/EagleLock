@@ -20,10 +20,11 @@ import cn.jcyh.eaglelock.util.StatusUtil;
 /**
  * Created by jogger on 2018/1/10.
  */
-
-public abstract class BaseActivity extends AppCompatActivity {
+@SuppressWarnings("unchecked")
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseModel.BaseView {
     private static final int STATUS_COLOR = Color.parseColor("#3f000000");
     private ProgressDialog mProgressDialog;
+    protected T mPresenter;
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
@@ -32,17 +33,23 @@ public abstract class BaseActivity extends AppCompatActivity {
         setContentView(getLayoutId());
         getWindow().setBackgroundDrawable(null);
         ButterKnife.bind(this);
+        createPresenter();
         ActivityCollector.addActivity(this);
         //开启沉浸式状态栏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         if (isFullScreen()) {
             StatusUtil.setActivityFullScreen(this);
-        }else {
-            StatusUtil.immersive(this,immersiveColor());
+        } else {
+            StatusUtil.immersive(this, immersiveColor());
+        }
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
         }
         init();
         loadData();
     }
+
+    protected abstract void createPresenter();
 
     @Override
     protected void onResume() {
@@ -60,8 +67,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     protected void loadData() {
     }
 
-
-    public abstract int getLayoutId();
 
     /**
      * 是否开启沉浸式状态栏
@@ -84,6 +89,7 @@ public abstract class BaseActivity extends AppCompatActivity {
     public boolean isFullScreen() {
         return false;
     }
+
     public void showProgressDialog() {
         if (isFinishing() || getSupportFragmentManager() == null)
             return;
@@ -182,5 +188,8 @@ public abstract class BaseActivity extends AppCompatActivity {
         super.onDestroy();
         cancelProgressDialog();
         ActivityCollector.removeActivity(this);
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
     }
 }

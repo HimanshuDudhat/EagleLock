@@ -19,7 +19,7 @@ import okhttp3.Response;
 //        String cookie = UserSharePreUtil.getInstance(context).getString(ConstantUtil.APP_COOKIE, "");
 //        添加cookie
 //        builder.addHeader("cookie", cookie);
-        builder.addHeader("LockUser-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)");
+        builder.addHeader("User-Agent", "Mozilla/5.0 (Windows; U; Windows NT 5.1; en-US; rv:0.9.4)");
         return chain.proceed(builder.build());
     }
 }
