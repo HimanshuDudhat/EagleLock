@@ -56,7 +56,7 @@ abstract class BaseHttpAction {
         mHttpRequest = getHttpRequest(requestService);
     }
 
-    public abstract IHttpRequest getHttpRequest(RequestService requestService);
+     abstract IHttpRequest getHttpRequest(RequestService requestService);
 
-    public abstract String getBaseUrl();
+     abstract String getBaseUrl();
 }

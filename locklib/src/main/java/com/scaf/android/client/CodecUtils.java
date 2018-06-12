@@ -3,12 +3,12 @@
 // (powered by Fernflower decompiler)
 //
 
-package cn.jcyh.locklib.util;
+package com.scaf.android.client;
 
 import android.util.Log;
 
-public class CodecUtil {
-    public CodecUtil() {
+public class CodecUtils {
+    public CodecUtils() {
     }
 
     public static native byte[] encode(byte[] var0);

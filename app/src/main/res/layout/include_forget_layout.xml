@@ -14,18 +14,26 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginStart="37dp"
         android:layout_marginTop="20dp"
         android:hint="@string/input_phone_email"/>
-
+    <EditText
+        android:id="@+id/et_code_forget"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_username_forget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="20dp"
+        android:hint="@string/input_phone_email"/>
     <EditText
         android:id="@+id/et_password_forget"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_username_forget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="32dp"
+        android:layout_marginStart="37dp"
         android:layout_marginTop="20dp"
         android:hint="@string/input_phone_email"/>
 
@@ -37,14 +45,14 @@
         app:layout_constraintTop_toBottomOf="@+id/et_password_forget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="32dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginStart="37dp"
         android:layout_marginTop="44dp"
         android:gravity="center"
         android:text="@string/regist"/>
 
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tv_send_code_forget"
         app:layout_constraintBottom_toBottomOf="@+id/et_password_forget"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/et_password_forget"

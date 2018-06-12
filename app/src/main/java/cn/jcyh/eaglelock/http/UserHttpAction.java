@@ -2,6 +2,7 @@ package cn.jcyh.eaglelock.http;
 
 import cn.jcyh.eaglelock.entity.User;
 import cn.jcyh.eaglelock.http.listener.OnHttpRequestListener;
+import cn.jcyh.eaglelock.util.Tool;
 
 /**
  * Created by jogger on 2018/6/9.
@@ -34,8 +35,8 @@ public class UserHttpAction extends BaseHttpAction {
         return RequestService.BASE_URL;
     }
 
-    public void login(String account, String password, final OnHttpRequestListener<HttpResult<User>> listener) {
-        mHttpRequest.login(account, password, listener);
+    public void login(String account, String password, final OnHttpRequestListener<User> listener) {
+        mHttpRequest.login(account, Tool.MD5(password), listener);
     }
 
     public void regist(String account, String pwd, int code, OnHttpRequestListener<Boolean> listener) {

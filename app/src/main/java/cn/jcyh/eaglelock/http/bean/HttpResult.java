@@ -1,4 +1,4 @@
-package cn.jcyh.eaglelock.http;
+package cn.jcyh.eaglelock.http.bean;
 
 /**
  * Created by jogger on 2018/1/18.

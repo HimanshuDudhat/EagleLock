@@ -7,6 +7,8 @@ package cn.jcyh.locklib.util;
 
 import android.util.Base64;
 
+import com.scaf.android.client.CodecUtils;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -213,7 +215,7 @@ public class DigitUtil {
 
     public static byte[] encodeDefaultPassword(byte[] sourceBytes) {
         if(sourceBytes != null && sourceBytes.length != 0) {
-            byte[] bytes = CodecUtil.encode(sourceBytes);
+            byte[] bytes = CodecUtils.encode(sourceBytes);
             return bytes;
         } else {
             LogUtil.d("sourceBytes=" + sourceBytes, true);
@@ -224,7 +226,7 @@ public class DigitUtil {
     public static byte[] decodeDefaultPassword(byte[] sourceBytes) {
         if(sourceBytes != null && sourceBytes.length != 0) {
             LogUtil.d("sourceBytes=" + byteArrayToHexString(sourceBytes), true);
-            byte[] bytes = CodecUtil.decode(sourceBytes);
+            byte[] bytes = CodecUtils.decode(sourceBytes);
             return bytes;
         } else {
             LogUtil.d("sourceBytes=" + sourceBytes, true);

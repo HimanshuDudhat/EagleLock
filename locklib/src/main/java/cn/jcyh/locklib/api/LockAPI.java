@@ -15,6 +15,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.RequiresApi;
 import android.support.annotation.RequiresPermission;
 import android.text.TextUtils;
+import android.util.Log;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ import cn.jcyh.locklib.util.LogUtil;
 import cn.jcyh.locklib.util.NetworkUtil;
 
 public class LockAPI {
+    private static final String TAG = "LockAPI";
     private static boolean DBG = true;
     public static final int REQUEST_ENABLE_BT = 1;
     private BluetoothLeService mBluetoothLeService;
@@ -40,6 +42,7 @@ public class LockAPI {
 
     public LockAPI() {
     }
+
     public static void init(Context context, LockCallback lockCallback) {
         sContext = context.getApplicationContext();
         sLockCallback = lockCallback;
@@ -99,6 +102,7 @@ public class LockAPI {
 
     public void stopBleService(Context context) {
         Intent intent = new Intent(context, BluetoothLeService.class);
+        context.stopService(intent);
         this.mBluetoothLeService = null;
     }
 
@@ -200,6 +204,7 @@ public class LockAPI {
      */
     public void addAdministrator(ExtendedBluetoothDevice extendedBluetoothDevice) {
         int lockType = extendedBluetoothDevice.getLockType();
+        Log.e(TAG, "----locktype:" + lockType);
         if (lockType > 3 && !extendedBluetoothDevice.isSettingMode()) {
             Error adminPs1 = Error.LOCK_IS_IN_NO_SETTING_MODE;
             adminPs1.setLockmac(extendedBluetoothDevice.getAddress());

@@ -8,6 +8,7 @@ package cn.jcyh.locklib.command;
 import android.os.Build;
 import android.support.annotation.RequiresApi;
 import android.util.Base64;
+import android.util.Log;
 
 import java.util.TimeZone;
 
@@ -24,6 +25,7 @@ public class CommandUtil {
     public static final long permanentStartDate = 949338000000L;
     public static final long permanentEndDate = 4099741200000L;
     private static final byte[] defaultAesKeyArray = new byte[]{-104, 118, 35, -24, -87, 35, -95, -69, 61, -98, 125, 3, 120, 18, 69, -120};
+    private static final String TAG = CommandUtil.class.getSimpleName();
 
     public CommandUtil() {
     }
@@ -129,7 +131,7 @@ public class CommandUtil {
 
     public static void getAESKey(LockVersion lockVersion, String manufacturer, int apiCommand) {
         BluetoothLeService.aesKeyArray = defaultAesKeyArray;
-        LogUtil.e("BluetoothLeService.aesKeyArray:" + BluetoothLeService.aesKeyArray, true);
+        Log.e(TAG, "---BluetoothLeService.aesKeyArray:" + BluetoothLeService.aesKeyArray);
         LogUtil.d(lockVersion.toString(), true);
         Command command = new Command(lockVersion);
         command.setCommand(25);

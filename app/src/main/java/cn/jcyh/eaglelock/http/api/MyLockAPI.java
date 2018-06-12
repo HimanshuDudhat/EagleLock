@@ -4,12 +4,13 @@ import android.os.Bundle;
 
 import java.util.List;
 
-import cn.jcyh.eaglelock.constant.Config;
+import cn.jcyh.eaglelock.constant.Constant;
 import cn.jcyh.eaglelock.constant.Operation;
 import cn.jcyh.eaglelock.control.ControlCenter;
 import cn.jcyh.eaglelock.entity.BleSession;
 import cn.jcyh.eaglelock.entity.LockKey;
 import cn.jcyh.eaglelock.util.SPUtil;
+import cn.jcyh.eaglelock.util.Util;
 import cn.jcyh.locklib.api.LockAPI;
 import cn.jcyh.locklib.callback.LockCallback;
 import cn.jcyh.locklib.scanner.ExtendedBluetoothDevice;
@@ -27,9 +28,9 @@ public class MyLockAPI extends LockAPI {
     }
 
     public static void init(LockCallback lockCallback, String CLIENT_ID, String CLIENT_SECRET) {
-        sLockCallback = lockCallback;
-        SPUtil.getInstance().put(Config.CLIENT_ID, CLIENT_ID);
-        SPUtil.getInstance().put(Config.CLIENT_SECRET, CLIENT_SECRET);
+        LockAPI.init(Util.getApp(), lockCallback);
+        SPUtil.getInstance().put(Constant.CLIENT_ID, CLIENT_ID);
+        SPUtil.getInstance().put(Constant.CLIENT_SECRET, CLIENT_SECRET);
     }
 
     public static MyLockAPI getLockAPI() {

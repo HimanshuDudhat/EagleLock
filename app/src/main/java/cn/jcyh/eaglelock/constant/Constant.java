@@ -4,9 +4,14 @@ package cn.jcyh.eaglelock.constant;
  * Created by jogger on 2018/6/9.
  */
 public class Constant {
-    public static final String AUTO_LOGIN="auto_login";
+    public static final String CLIENT_ID = "CLIENT_ID";
+    public static final String CLIENT_SECRET = "CLIENT_SECRET";
+    public static final String ACCOUNT = "account";
+    public static final String PWD = "pwd";
+    public static final String AUTO_LOGIN = "auto_login";
     public static final String USER_INFO = "user_info";
     public static final String KEY_LIST = "key_list";
+    public static final String LAST_SYNC_DATE="last_sync_date";
 
     private final static String PACKAGE_NAME = "cn.jcyh.eaglelock";
     public static final String ACTION_ADD_ADMIN = PACKAGE_NAME + "lock_add_admin";
@@ -34,4 +39,6 @@ public class Constant {
     public static final String ACTION_LOCK_SYNC_TIME = PACKAGE_NAME + "action_lock_sync_time";
     public final static String DEVICE = "device";
     public final static String ERROR_MSG = "error_msg";
+
+
 }

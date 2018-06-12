@@ -9,13 +9,29 @@ android {
         versionName rootProject.ext.android.versionName
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
+        // 使用Cmake工具
+        externalNativeBuild {
+            cmake {
+                cppFlags ""
+//生成多个版本的so文件
+                abiFilters "armeabi-v7a", "x86"
+            }
+        }
     }
+    // 配置CMakeLists.txt路径
+    externalNativeBuild {
+        cmake {
+            path "CMakeLists.txt"//编译后so文件的名字
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+
 }
 
 dependencies {
@@ -32,6 +48,7 @@ dependencies {
     implementation rootProject.ext.dependencies.retrofit2Rxjava2Adapter
     implementation rootProject.ext.dependencies.rxjava
     implementation rootProject.ext.dependencies.rxandroid
+    implementation rootProject.ext.dependencies.rxpermission
     implementation rootProject.ext.dependencies.converterGson
     implementation rootProject.ext.dependencies.multidex
     implementation rootProject.ext.dependencies.gson

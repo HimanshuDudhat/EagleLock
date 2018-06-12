@@ -35,7 +35,6 @@ public class AESUtil {
         byte[] decryptResArray = null;
 
         try {
-            Log.e(TAG,"-----------aesKey:" + DigitUtil.byteArrayToHexString(aesKeyArray));
             decryptResArray = Decrypt(source, aesKeyArray, aesKeyArray);
         } catch (Exception var4) {
             var4.printStackTrace();

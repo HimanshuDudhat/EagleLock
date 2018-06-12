@@ -9,4 +9,23 @@
     <string name="regist_immediately">立即注册</string>
     <string name="regist">注册</string>
     <string name="input_can_not_null">输入不能为空</string>
+    <string name="regex_phone">^1[345678]\\d{9}$</string>
+    <string name="phone_no_match">手机号不匹配</string>
+    <string name="getcode">发送验证码</string>
+    <string name="vali_code">验证码</string>
+    <string name="input_pwd">请输入密码</string>
+    <string name="go_login_msg">已有帐号，立即登录</string>
+    <string name="input_account">请输入帐号</string>
+    <string name="regist_success">注册成功！</string>
+    <string name="login_rediect">直接登录</string>
+    <string name="input_error">输入有误</string>
+    <string name="user_registed">用户已注册</string>
+    <string name="search">搜索</string>
+    <string name="device_list">设备列表</string>
+    <string name="device_num_format">共%d台设备</string>
+    <string name="add_device">添加设备</string>
+    <string name="list">列表</string>
+    <string name="add_device_hint">请点亮触摸屏，使锁进入可编辑状态</string>
+    <string name="next">下一步</string>
+    <string name="add">添加</string>
 </resources>

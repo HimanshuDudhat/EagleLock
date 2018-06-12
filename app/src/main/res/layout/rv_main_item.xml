@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="175dp"
+    android:layout_height="150dp"
+    android:background="@drawable/main_item_bg_shape">
+
+    <TextView
+        android:id="@+id/tv_key_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="11dp"
+        android:text="TextView"
+        android:textColor="@color/colorAccent"
+        android:textSize="16sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/lock_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="21dp"
+        android:layout_marginTop="56dp"
+        android:src="@mipmap/list_photo_lock"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="25dp"
+        android:src="@mipmap/list_photo_power_70"
+        app:layout_constraintStart_toEndOf="@+id/lock_icon"
+        app:layout_constraintTop_toBottomOf="@+id/tv_key_name"/>
+
+    <TextView
+        android:id="@+id/tv_aging"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="永久"
+        android:textColor="@color/gray_a4b1c1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/iv_power"
+        app:layout_constraintTop_toBottomOf="@+id/tv_type"/>
+
+    <TextView
+        android:id="@+id/tv_power"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="7dp"
+        android:text="78%"
+        android:textColor="@color/gray_a4b1c1"
+        android:textSize="14sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_power"
+        app:layout_constraintStart_toEndOf="@+id/iv_power"
+        app:layout_constraintTop_toTopOf="@+id/iv_power"/>
+
+    <TextView
+        android:id="@+id/tv_type"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="11dp"
+        android:text="管理员"
+        android:textColor="@color/gray_a4b1c1"
+        android:textSize="14sp"
+        app:layout_constraintStart_toStartOf="@+id/iv_power"
+        app:layout_constraintTop_toBottomOf="@+id/tv_power"/>
+</android.support.constraint.ConstraintLayout>

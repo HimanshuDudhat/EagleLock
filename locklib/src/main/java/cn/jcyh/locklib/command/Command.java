@@ -6,10 +6,10 @@
 package cn.jcyh.locklib.command;
 
 import com.google.gson.Gson;
+import com.scaf.android.client.CodecUtils;
 
 import cn.jcyh.locklib.entity.LockVersion;
 import cn.jcyh.locklib.util.AESUtil;
-import cn.jcyh.locklib.util.CodecUtil;
 import cn.jcyh.locklib.util.DigitUtil;
 import cn.jcyh.locklib.util.LogUtil;
 
@@ -162,7 +162,7 @@ public class Command {
             this.checksum = command[command.length - 1];
             byte[] e = new byte[command.length - 1];
             System.arraycopy(command, 0, e, 0, e.length);
-            byte checksum = CodecUtil.crccompute(e);
+            byte checksum = CodecUtils.crccompute(e);
             this.mIsChecksumValid = checksum == this.checksum;
             LogUtil.d("checksum=" + checksum + " this.checksum=" + this.checksum, DBG);
             LogUtil.d("mIsChecksumValid : " + this.mIsChecksumValid, DBG);
@@ -194,12 +194,12 @@ public class Command {
     }
 
     public void setData(byte[] data) {
-        this.data = CodecUtil.encodeWithEncrypt(data, this.encrypt);
+        this.data = CodecUtils.encodeWithEncrypt(data, this.encrypt);
         this.length = (byte) this.data.length;
     }
 
     public byte[] getData() {
-        byte[] values = CodecUtil.decodeWithEncrypt(this.data, this.encrypt);
+        byte[] values = CodecUtils.decodeWithEncrypt(this.data, this.encrypt);
         return values;
     }
 
@@ -276,7 +276,7 @@ public class Command {
             }
 
             commandWithChecksum = new byte[commandWithoutChecksum.length + 1];
-            checksumJava = CodecUtil.crccompute(commandWithoutChecksum);
+            checksumJava = CodecUtils.crccompute(commandWithoutChecksum);
             System.arraycopy(commandWithoutChecksum, 0, commandWithChecksum, 0, commandWithoutChecksum.length);
             commandWithChecksum[commandWithChecksum.length - 1] = checksumJava;
             LogUtil.d("buildCommand : " + (char) this.command + "-" + String.format("%#x", new Object[]{Byte.valueOf(this.command)}), DBG);
@@ -294,7 +294,7 @@ public class Command {
             }
 
             commandWithChecksum = new byte[commandWithoutChecksum.length + 1];
-            checksumJava = CodecUtil.crccompute(commandWithoutChecksum);
+            checksumJava = CodecUtils.crccompute(commandWithoutChecksum);
             System.arraycopy(commandWithoutChecksum, 0, commandWithChecksum, 0, commandWithoutChecksum.length);
             commandWithChecksum[commandWithChecksum.length - 1] = checksumJava;
             LogUtil.d("buildCommand : " + (char) this.command, DBG);

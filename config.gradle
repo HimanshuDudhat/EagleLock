@@ -41,6 +41,7 @@ ext {
             greendaoGenerator      : 'org.greenrobot:greendao-generator:3.0.0',
             umeng                  : 'com.umeng.analytics:analytics:latest.integration',
             permission             : 'com.yanzhenjie:permission:2.0.0-rc4',
+            rxpermission           : "com.tbruyelle.rxpermissions2:rxpermissions:0.9.5@aar",
             photoview              : 'com.github.chrisbanes:PhotoView:1.2.6',
             photopicker            : 'me.iwf.photopicker:PhotoPicker:0.1.8',
             tinkerAndroidAnno      : 'com.tencent.tinker:tinker-android-anno:1.9.1',

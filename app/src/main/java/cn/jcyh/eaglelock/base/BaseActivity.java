@@ -1,5 +1,6 @@
 package cn.jcyh.eaglelock.base;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -10,18 +11,25 @@ import android.os.Parcelable;
 import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
+import com.tbruyelle.rxpermissions2.Permission;
+import com.tbruyelle.rxpermissions2.RxPermissions;
+
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
 import cn.jcyh.eaglelock.R;
 import cn.jcyh.eaglelock.control.ActivityCollector;
+import cn.jcyh.eaglelock.http.api.MyLockAPI;
+import cn.jcyh.eaglelock.util.L;
 import cn.jcyh.eaglelock.util.StatusUtil;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by jogger on 2018/1/10.
  */
 @SuppressWarnings("unchecked")
-public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements BaseModel.BaseView {
+public abstract class BaseActivity<T extends BasePresenter> extends AppCompatActivity implements IBaseView {
     private static final int STATUS_COLOR = Color.parseColor("#3f000000");
     private ProgressDialog mProgressDialog;
     protected T mPresenter;
@@ -45,6 +53,24 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
+        //检查权限
+        MyLockAPI.getLockAPI().requestBleEnable(this);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        Disposable subscribe = rxPermissions
+                .requestEach(Manifest.permission.BLUETOOTH_ADMIN,
+                        Manifest.permission.ACCESS_COARSE_LOCATION)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            L.e("用户同意该权限" + permission.name);
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            L.e("用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框");
+                        } else {
+                            L.e("----------用户拒绝了该权限，并且选中『不再询问』");
+                        }
+                    }
+                });
         init();
         loadData();
     }
@@ -90,6 +116,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         return false;
     }
 
+    @Override
     public void showProgressDialog() {
         if (isFinishing() || getSupportFragmentManager() == null)
             return;
@@ -112,6 +139,7 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
             mProgressDialog.show();
     }
 
+    @Override
     public void cancelProgressDialog() {
         if (mProgressDialog == null) return;
         if (mProgressDialog.isShowing())
@@ -181,6 +209,16 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         Intent intent = new Intent(this, cls);
         intent.putExtras(bundle);
         startActivity(intent);
+    }
+
+    @Override
+    public void showToast(int resId) {
+        cn.jcyh.eaglelock.util.T.show(resId);
+    }
+
+    @Override
+    public void showToast(String content) {
+        cn.jcyh.eaglelock.util.T.show(content);
     }
 
     @Override

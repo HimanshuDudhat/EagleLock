@@ -518,7 +518,6 @@ public class BluetoothLeService extends Service {
     }
 
     public int onStartCommand(Intent intent, int flags, int startId) {
-        LogUtil.d("Service is Started", true);
         return START_STICKY;
     }
 

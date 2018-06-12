@@ -46,6 +46,22 @@ public class ControlCenter {
         return mSPUtil.getBoolean(Constant.AUTO_LOGIN, false);
     }
 
+    public void saveUserAccount(String account) {
+        mSPUtil.put(Constant.ACCOUNT, account);
+    }
+
+    public void saveUserPwd(String pwd) {
+        mSPUtil.put(Constant.PWD, pwd);
+    }
+
+    public String getAccount() {
+        return mSPUtil.getString(Constant.ACCOUNT, "");
+    }
+
+    public String getPwd() {
+        return mSPUtil.getString(Constant.PWD, "");
+    }
+
     public String getAccessToken() {
         User userInfo = getUserInfo();
         if (userInfo != null)
@@ -63,6 +79,7 @@ public class ControlCenter {
     }
 
     public void saveUserInfo(User user) {
+        sUser = user;
         mSPUtil.put(Constant.USER_INFO, mGson.toJson(user));
     }
 
@@ -83,5 +100,12 @@ public class ControlCenter {
         return sUserKeys;
     }
 
+    public void saveLastSyncDate(long time) {
+        mSPUtil.put(Constant.LAST_SYNC_DATE, time);
+    }
+
+    public long getLastSyncDate() {
+        return mSPUtil.getLong(Constant.LAST_SYNC_DATE, 0);
+    }
 
 }

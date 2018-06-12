@@ -13,6 +13,8 @@ import cn.jcyh.eaglelock.constant.Operation;
 import cn.jcyh.eaglelock.control.ControlCenter;
 import cn.jcyh.eaglelock.entity.LockKey;
 import cn.jcyh.eaglelock.entity.User;
+import cn.jcyh.eaglelock.http.LockHttpAction;
+import cn.jcyh.eaglelock.http.listener.OnHttpRequestListener;
 import cn.jcyh.eaglelock.util.L;
 import cn.jcyh.eaglelock.util.T;
 import cn.jcyh.eaglelock.util.Util;
@@ -99,22 +101,23 @@ public class MyLockCallback implements LockCallback {
         }
         //根据accessToken和lockmac获取钥匙
         List<LockKey> keys = mControlCenter.getLockKeys();
-        if (keys == null && Operation.ADD_ADMIN.equals(MyLockAPI.sBleSession.getOperation()))
-            return;
+        L.e("----" + (keys == null && Operation.ADD_ADMIN.equals(MyLockAPI.sBleSession.getOperation())));
+//        if (keys == null && Operation.ADD_ADMIN.equals(MyLockAPI.sBleSession.getOperation()))
+//            return;
         LockKey localKey = null;
-        assert keys != null;
-        for (int i = 0; i < keys.size(); i++) {
-            if (keys.get(i) == null) return;
-            if (TextUtils.isEmpty(keys.get(i).getAccessToken()) || TextUtils.isEmpty(keys.get(i).getLockMac()))
-                continue;
-            if (keys.get(i).getAccessToken().equals(mUser.getAccess_token()) && keys.get(i).getLockMac().equals(extendedBluetoothDevice.getAddress())) {
-                localKey = keys.get(i);
-                break;
+        if (keys != null) {
+            for (int i = 0; i < keys.size(); i++) {
+                if (keys.get(i) == null) return;
+                if (TextUtils.isEmpty(keys.get(i).getAccessToken()) || TextUtils.isEmpty(keys.get(i).getLockMac()))
+                    continue;
+                if (keys.get(i).getAccessToken().equals(mUser.getAccess_token()) && keys.get(i).getLockMac().equals(extendedBluetoothDevice.getAddress())) {
+                    localKey = keys.get(i);
+                    break;
+                }
             }
         }
         switch (MyLockAPI.sBleSession.getOperation()) {
             case Operation.ADD_ADMIN:
-                L.e("----------ADD_ADMIN");
                 lockAPI.addAdministrator(extendedBluetoothDevice);
                 break;
             case Operation.LOCKCAR_DOWN:
@@ -584,23 +587,20 @@ public class MyLockCallback implements LockCallback {
             key.setModelNumber(modelNumber);
             key.setHardwareRevision(hardwareRevision);
             key.setFirmwareRevision(firmwareRevision);
-            T.show( "锁添加成功，正在上传服务端进行初始化操作");
-//            LockHttpAction.getHttpAction(mContext).initLock(key, new OnHttpRequestCallback<Boolean>() {
-//                @Override
-//                public void onFailure(int errorCode) {
-//                    L.e("--------error:" + errorCode);
-//
-//                }
-//
-//                @Override
-//                public void onSuccess(Boolean aBoolean) {
-//                    L.e("--------添加成功:");
-//                    Intent intent = new Intent(Constant.ACTION_ADD_ADMIN);
-//                    intent.putExtra(Constant.ERROR_MSG, error);
-//                    mLocalBroadcastManager.sendBroadcast(intent);
-//                }
-//            });
+            T.show("锁添加成功，正在上传服务端进行初始化操作");
+            LockHttpAction.geHttpAction().initLock(key, new OnHttpRequestListener<Boolean>() {
+                @Override
+                public void onFailure(int errorCode) {
 
+                }
+
+                @Override
+                public void onSuccess(Boolean aBoolean) {
+                    Intent intent = new Intent(Constant.ACTION_ADD_ADMIN);
+                    intent.putExtra(Constant.ERROR_MSG, error);
+                    mLocalBroadcastManager.sendBroadcast(intent);
+                }
+            });
         } else {
             Intent intent = new Intent(Constant.ACTION_ADD_ADMIN);
             intent.putExtra(Constant.ERROR_MSG, error);

@@ -3,7 +3,7 @@ package cn.jcyh.eaglelock.base;
 /**
  * Created by jogger on 2018/6/7.
  */
-public abstract class BasePresenter<V extends BaseView, M extends BaseModel> implements IPresenter<V, M> {
+public abstract class BasePresenter<V extends IBaseView, M extends BaseModel> implements IPresenter<V, M> {
     protected V mView;
     protected M mModel;
 
