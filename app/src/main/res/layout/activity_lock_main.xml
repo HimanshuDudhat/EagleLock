@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/immersive"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    tools:context=".function.ui.LockMainActivity">
+
+    <LinearLayout
+        android:id="@+id/ll_top"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/gray_a4b1c1"
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:id="@+id/rl_title"
+            android:layout_width="match_parent"
+            android:layout_height="49dp">
+
+            <ImageButton
+                android:id="@+id/ibtn_return"
+                android:layout_width="42dp"
+                android:layout_height="match_parent"
+                android:background="@null"
+                android:src="@mipmap/set_icon_return"/>
+
+            <TextView
+                android:id="@+id/tv_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:gravity="center"
+                android:text="@string/add_device"
+                android:textColor="@color/colorAccent"
+                android:textSize="18sp"
+                android:textStyle="bold"/>
+        </RelativeLayout>
+
+        <ImageView
+            android:id="@+id/iv_lock"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="31dp"
+            android:background="@mipmap/lock_gif_00000"
+            android:clickable="true"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:paddingBottom="57dp"
+            android:paddingTop="12dp"
+            android:text="@string/click_unlock"
+            android:textColor="@color/white"
+            android:textSize="16sp"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="42dp"
+        app:layout_constraintTop_toBottomOf="@+id/ll_top">
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_admin_container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/constraintLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_send_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:src="@mipmap/list_icon_key"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_send_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="43dp"
+                    android:src="@mipmap/list_icon_password"
+                    app:layout_constraintStart_toEndOf="@+id/iv_send_key"/>
+
+                <ImageView
+                    android:id="@+id/iv_key_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="43dp"
+                    android:src="@mipmap/list_icon_key_control"
+                    app:layout_constraintStart_toEndOf="@+id/iv_send_pwd"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <ImageView
+                    android:id="@+id/iv_pwd_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="8dp"
+                    android:layout_marginStart="43dp"
+                    android:src="@mipmap/list_icon_password_control"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toEndOf="@+id/iv_key_manage"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_send_key"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:text="@string/send_key"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_send_key"
+                    app:layout_constraintStart_toStartOf="@+id/iv_send_key"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_send_key"/>
+
+                <TextView
+                    android:id="@+id/tv_send_pwd"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:gravity="center_horizontal"
+                    android:includeFontPadding="false"
+                    android:text="@string/send_pwd"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_send_pwd"
+                    app:layout_constraintStart_toStartOf="@+id/iv_send_pwd"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_send_pwd"/>
+
+                <TextView
+                    android:id="@+id/tv_key_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/key_manage"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_key_manage"
+                    app:layout_constraintStart_toStartOf="@+id/iv_key_manage"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_key_manage"/>
+
+                <TextView
+                    android:id="@+id/tv_pwd_manage"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/pwd_manage"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_pwd_manage"
+                    app:layout_constraintStart_toStartOf="@+id/iv_pwd_manage"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_pwd_manage"/>
+            </android.support.constraint.ConstraintLayout>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/constraintLayout">
+
+                <ImageView
+                    android:id="@+id/iv_ic_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="43dp"
+                    android:src="@mipmap/list_icon_ic"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_fingerprint"
+                    />
+
+                <TextView
+                    android:id="@+id/tv_ic_card"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/ic_card"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_ic_card"
+                    app:layout_constraintStart_toStartOf="@+id/iv_ic_card"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_ic_card"/>
+
+                <ImageView
+                    android:id="@+id/iv_fingerprint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="43dp"
+                    android:src="@mipmap/list_icon_zhiwen"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_record"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_fingerprint"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/fingerprint"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_fingerprint"
+                    app:layout_constraintStart_toStartOf="@+id/iv_fingerprint"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_fingerprint"/>
+
+                <ImageView
+                    android:id="@+id/iv_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="43dp"
+                    android:src="@mipmap/list_icon_note"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_setting"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_record"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/control_record"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_record"
+                    app:layout_constraintStart_toStartOf="@+id/iv_record"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_record"/>
+
+                <ImageView
+                    android:id="@+id/iv_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/list_icon_setup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_setting"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/setting"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_setting"
+                    app:layout_constraintStart_toStartOf="@+id/iv_setting"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_setting"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/cl_user_container"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="44dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent">
+
+
+                <ImageView
+                    android:id="@+id/iv_record_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="43dp"
+                    android:layout_marginStart="43dp"
+                    android:src="@mipmap/list_icon_note"
+                    app:layout_constraintEnd_toStartOf="@+id/iv_setting_user"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_record_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/control_record"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_record_user"
+                    app:layout_constraintStart_toStartOf="@+id/iv_record_user"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_record_user"/>
+
+                <ImageView
+                    android:id="@+id/iv_setting_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@mipmap/list_icon_setup"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"/>
+
+                <TextView
+                    android:id="@+id/tv_setting_user"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="11dp"
+                    android:includeFontPadding="false"
+                    android:text="@string/setting"
+                    android:textColor="@color/colorAccent"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="@+id/iv_setting_user"
+                    app:layout_constraintStart_toStartOf="@+id/iv_setting_user"
+                    app:layout_constraintTop_toBottomOf="@+id/iv_setting_user"/>
+            </android.support.constraint.ConstraintLayout>
+        </android.support.constraint.ConstraintLayout>
+    </FrameLayout>
+
+</android.support.constraint.ConstraintLayout>

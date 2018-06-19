@@ -26,12 +26,12 @@ public class UserHttpAction extends BaseHttpAction {
     }
 
     @Override
-    public IHttpRequest getHttpRequest(RequestService requestService) {
+    IHttpRequest getHttpRequest(RequestService requestService) {
         return new HttpRequestImp(requestService);
     }
 
     @Override
-    public String getBaseUrl() {
+    String getBaseUrl() {
         return RequestService.BASE_URL;
     }
 
@@ -40,7 +40,7 @@ public class UserHttpAction extends BaseHttpAction {
     }
 
     public void regist(String account, String pwd, int code, OnHttpRequestListener<Boolean> listener) {
-        mHttpRequest.regist(account, pwd, code, listener);
+        mHttpRequest.regist(account, Tool.MD5(pwd), code, listener);
     }
 
     public void sendCodeRegist(String account, String sign, long time, OnHttpRequestListener<Boolean> listener) {
@@ -51,4 +51,7 @@ public class UserHttpAction extends BaseHttpAction {
         mHttpRequest.sendCodeForget(account, sign, time, listener);
     }
 
+    public void setBackPassword(String account, String pwd, int code, OnHttpRequestListener<Boolean> listener) {
+        mHttpRequest.setBackPassword(account, Tool.MD5(pwd), code, listener);
+    }
 }

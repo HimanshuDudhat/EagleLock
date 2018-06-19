@@ -3,7 +3,8 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="175dp"
+    android:id="@+id/cl_item"
+    android:layout_width="match_parent"
     android:layout_height="150dp"
     android:background="@drawable/main_item_bg_shape">
 
@@ -14,6 +15,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="11dp"
+        android:ellipsize="end"
+        android:maxLines="1"
         android:text="TextView"
         android:textColor="@color/colorAccent"
         android:textSize="16sp"
@@ -69,9 +72,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="11dp"
-        android:text="管理员"
+        android:text="@string/admin"
         android:textColor="@color/gray_a4b1c1"
         android:textSize="14sp"
         app:layout_constraintStart_toStartOf="@+id/iv_power"
         app:layout_constraintTop_toBottomOf="@+id/tv_power"/>
+
+    <TextView
+        android:id="@+id/tv_state"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textColor="@color/red_ea3434"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="239dp"
+        tools:layout_editor_absoluteY="109dp"/>
 </android.support.constraint.ConstraintLayout>

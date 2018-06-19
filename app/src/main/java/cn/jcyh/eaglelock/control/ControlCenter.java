@@ -90,7 +90,8 @@ public class ControlCenter {
     }
 
     public void saveLockKeys(List<LockKey> keys) {
-        mSPUtil.put(Constant.KEY_LIST, mGson.toJson(keys));
+        sUserKeys = keys;
+        mSPUtil.put(Constant.KEY_LIST, keys == null ? "" : mGson.toJson(keys));
     }
 
     public List<LockKey> getLockKeys() {

@@ -16,19 +16,21 @@ import android.view.ViewGroup;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.jcyh.eaglelock.R;
-import cn.jcyh.eaglelock.util.Util;
 
 /**
  * Created by jogger on 2017/3/15.
  * 基类fragment
  */
-
-public abstract class BaseFragment extends Fragment {
+@SuppressWarnings("unchecked")
+public abstract class BaseFragment<T extends BasePresenter> extends Fragment implements IBaseView {
     public Activity mActivity;
     public boolean mIsVisibleToUser;
     public boolean mIsViewCreated;
     private ProgressDialog mProgressDialog;
+    protected T mPresenter;
+    private Unbinder mBind;
 
     @Override
     public void onAttach(Context context) {
@@ -53,7 +55,7 @@ public abstract class BaseFragment extends Fragment {
         } else {
             view = inflater.inflate(getLayoutId(), null);
         }
-        ButterKnife.bind(this, view);
+        mBind = ButterKnife.bind(this, view);
         //沉浸式状态栏
         return view;
     }
@@ -62,11 +64,13 @@ public abstract class BaseFragment extends Fragment {
         return null;
     }
 
-    ;
-
     @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         mIsViewCreated = true;
+        mPresenter=createPresenter();
+        if (mPresenter != null) {
+            mPresenter.attachView(this);
+        }
         init();
         loadData();
     }
@@ -82,35 +86,8 @@ public abstract class BaseFragment extends Fragment {
     public void existData(boolean existData) {
     }
 
-    public void showProgressDialog() {
-        if (mActivity == null || mActivity.isFinishing() || mActivity.getFragmentManager() == null)
-            return;
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(mActivity);
-            mProgressDialog.setMessage(getString(R.string.waiting));
-        }
-        if (!mProgressDialog.isShowing())
-            mProgressDialog.show();
-    }
+    protected abstract T createPresenter();
 
-    public void showProgressDialog(String message) {
-        if (mActivity == null || mActivity.isFinishing() || mActivity.getFragmentManager() == null)
-            return;
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(Util.getApp());
-        }
-        mProgressDialog.setMessage(message);
-        if (!mProgressDialog.isShowing())
-            mProgressDialog.show();
-    }
-
-    public void cancelProgressDialog() {
-        if (mActivity == null || mActivity.getFragmentManager() == null) return;
-        if (mProgressDialog == null) return;
-        if (mProgressDialog.isShowing())
-            mProgressDialog.cancel();
-        mProgressDialog = null;
-    }
 
     public void startNewActivity(Class cls) {
         Intent intent = new Intent(mActivity, cls);
@@ -179,11 +156,63 @@ public abstract class BaseFragment extends Fragment {
     }
 
     @Override
+    public boolean isDialogShowing() {
+        if (mActivity == null || mActivity.isFinishing() || mActivity.getFragmentManager() == null)
+            return false;
+        return mProgressDialog != null && mProgressDialog.isShowing();
+    }
+
+    @Override
+    public void showProgressDialog() {
+        if (mActivity == null || mActivity.isFinishing() || mActivity.getFragmentManager() == null)
+            return;
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(mActivity);
+            mProgressDialog.setMessage(getString(R.string.waiting));
+        }
+        if (!mProgressDialog.isShowing())
+            mProgressDialog.show();
+    }
+
+    public void showProgressDialog(String message) {
+        if (mActivity == null || mActivity.isFinishing() || mActivity.getFragmentManager() == null)
+            return;
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(mActivity);
+        }
+        mProgressDialog.setMessage(message);
+        if (!mProgressDialog.isShowing())
+            mProgressDialog.show();
+    }
+
+    @Override
+    public void cancelProgressDialog() {
+        if (mProgressDialog == null) return;
+        if (mProgressDialog.isShowing())
+            mProgressDialog.cancel();
+        mProgressDialog = null;
+    }
+
+    @Override
+    public void showToast(int resId) {
+        cn.jcyh.eaglelock.util.T.show(resId);
+    }
+
+    @Override
+    public void showToast(String content) {
+        cn.jcyh.eaglelock.util.T.show(content);
+    }
+
+    @Override
     public void onDestroyView() {
         super.onDestroyView();
 //        MyApp.getRefWatcher().watch(this);
         cancelProgressDialog();
         mIsViewCreated = false;
+        if (mPresenter != null) {
+            mPresenter.detachView();
+        }
+        mBind.unbind();
     }
 
 

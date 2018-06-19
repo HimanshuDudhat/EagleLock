@@ -27,6 +27,17 @@ public class T {
     }
 
     @SuppressLint("ShowToast")
+    public static void show(int resId, int code) {
+        String str = Util.getApp().getString(resId);
+        if (toast == null) {
+            toast = Toast.makeText(Util.getApp(), str, Toast.LENGTH_SHORT);
+        } else {
+            toast.setText(str);
+        }
+        toast.show();
+    }
+
+    @SuppressLint("ShowToast")
     public static void show(int str) {
         if (toast == null) {
             toast = Toast.makeText(Util.getApp(),
@@ -45,6 +56,16 @@ public class T {
                     null, Toast.LENGTH_SHORT);
         }
         customToast.setGravity(Gravity.FILL, 0, 0);
+        customToast.setView(view);
+        customToast.show();
+    }
+
+    public static void showCustom(int layoutId) {
+        View view = LayoutInflater.from(Util.getApp()).inflate(layoutId, null);
+        if (customToast == null) {
+            customToast = Toast.makeText(Util.getApp(), null, Toast.LENGTH_SHORT);
+        }
+        customToast.setGravity(Gravity.CENTER, 0, -50);
         customToast.setView(view);
         customToast.show();
     }

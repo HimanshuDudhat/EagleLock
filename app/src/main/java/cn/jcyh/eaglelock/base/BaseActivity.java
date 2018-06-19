@@ -5,10 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Parcelable;
-import android.support.annotation.RequiresApi;
 import android.support.v7.app.AppCompatActivity;
 
 import com.tbruyelle.rxpermissions2.Permission;
@@ -17,6 +15,7 @@ import com.tbruyelle.rxpermissions2.RxPermissions;
 import java.io.Serializable;
 
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import cn.jcyh.eaglelock.R;
 import cn.jcyh.eaglelock.control.ActivityCollector;
 import cn.jcyh.eaglelock.http.api.MyLockAPI;
@@ -33,15 +32,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
     private static final int STATUS_COLOR = Color.parseColor("#3f000000");
     private ProgressDialog mProgressDialog;
     protected T mPresenter;
+    private Unbinder mBind;
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(getLayoutId());
         getWindow().setBackgroundDrawable(null);
-        ButterKnife.bind(this);
-        createPresenter();
+        mBind = ButterKnife.bind(this);
+        mPresenter=createPresenter();
         ActivityCollector.addActivity(this);
         //开启沉浸式状态栏
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -53,29 +52,15 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.attachView(this);
         }
-        //检查权限
-        MyLockAPI.getLockAPI().requestBleEnable(this);
-        RxPermissions rxPermissions = new RxPermissions(this);
-        Disposable subscribe = rxPermissions
-                .requestEach(Manifest.permission.BLUETOOTH_ADMIN,
-                        Manifest.permission.ACCESS_COARSE_LOCATION)
-                .subscribe(new Consumer<Permission>() {
-                    @Override
-                    public void accept(Permission permission) throws Exception {
-                        if (permission.granted) {
-                            L.e("用户同意该权限" + permission.name);
-                        } else if (permission.shouldShowRequestPermissionRationale) {
-                            L.e("用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框");
-                        } else {
-                            L.e("----------用户拒绝了该权限，并且选中『不再询问』");
-                        }
-                    }
-                });
+        if (isCheckPermission()) {
+            checkPermission(Manifest.permission.BLUETOOTH_ADMIN,
+                    Manifest.permission.ACCESS_COARSE_LOCATION);
+        }
         init();
         loadData();
     }
 
-    protected abstract void createPresenter();
+    protected abstract T createPresenter();
 
     @Override
     protected void onResume() {
@@ -116,6 +101,30 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         return false;
     }
 
+    public boolean isCheckPermission() {
+        return true;
+    }
+
+    protected void checkPermission(final String... permissions) {
+        //检查权限
+        MyLockAPI.getLockAPI().requestBleEnable(this);
+        RxPermissions rxPermissions = new RxPermissions(this);
+        Disposable subscribe = rxPermissions
+                .requestEach(permissions)
+                .subscribe(new Consumer<Permission>() {
+                    @Override
+                    public void accept(Permission permission) throws Exception {
+                        if (permission.granted) {
+                            L.e("用户同意该权限" + permission.name);
+                        } else if (permission.shouldShowRequestPermissionRationale) {
+                            L.e("用户拒绝了该权限，没有选中『不再询问』（Never ask again）,那么下次再次启动时，还会提示请求权限的对话框");
+                        } else {
+                            L.e("----------用户拒绝了该权限，并且选中『不再询问』");
+                        }
+                    }
+                });
+    }
+
     @Override
     public void showProgressDialog() {
         if (isFinishing() || getSupportFragmentManager() == null)
@@ -126,6 +135,13 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         }
         if (!mProgressDialog.isShowing())
             mProgressDialog.show();
+    }
+
+    @Override
+    public boolean isDialogShowing() {
+        if (isFinishing() || getSupportFragmentManager() == null)
+            return false;
+        return mProgressDialog != null && mProgressDialog.isShowing();
     }
 
     public void showProgressDialog(String message) {
@@ -229,5 +245,6 @@ public abstract class BaseActivity<T extends BasePresenter> extends AppCompatAct
         if (mPresenter != null) {
             mPresenter.detachView();
         }
+        mBind.unbind();
     }
 }

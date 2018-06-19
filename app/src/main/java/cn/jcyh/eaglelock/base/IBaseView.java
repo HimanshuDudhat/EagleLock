@@ -12,5 +12,7 @@ public interface IBaseView {
 
     void showProgressDialog();
 
+    boolean isDialogShowing();
+
     void cancelProgressDialog();
 }

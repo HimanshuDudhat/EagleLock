@@ -19,6 +19,7 @@ public interface LoginContract {
 
         void regist(String userName, String pwd, int code, OnHttpRequestListener<Boolean> listener);
 
+        void setBackPassword(String userName, String pwd, int code, OnHttpRequestListener<Boolean> listener);
     }
 
     interface View extends IBaseView {
@@ -50,6 +51,8 @@ public interface LoginContract {
 
         void loginSuccess();
 
+        void setBackPasswordSuccess();
+
     }
 
     interface Presenter extends IPresenter<View, Model> {
@@ -65,5 +68,7 @@ public interface LoginContract {
         void requestForgetCode();
 
         void setAutoLogin(boolean autoLogin);
+
+        void setBackPassword();
     }
 }

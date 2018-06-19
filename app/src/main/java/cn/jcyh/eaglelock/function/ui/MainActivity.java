@@ -1,32 +1,36 @@
 package cn.jcyh.eaglelock.function.ui;
 
 import android.Manifest;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.tbruyelle.rxpermissions2.Permission;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jcyh.eaglelock.R;
 import cn.jcyh.eaglelock.base.BaseActivity;
+import cn.jcyh.eaglelock.base.recyclerview.MainGridItemDecoration;
 import cn.jcyh.eaglelock.base.recyclerview.MyGridLayoutManager;
+import cn.jcyh.eaglelock.constant.Constant;
 import cn.jcyh.eaglelock.entity.LockKey;
 import cn.jcyh.eaglelock.function.adapter.MainAdapter;
 import cn.jcyh.eaglelock.function.contract.MainContract;
 import cn.jcyh.eaglelock.function.presenter.MainPresenter;
 import cn.jcyh.eaglelock.http.api.MyLockAPI;
 import cn.jcyh.eaglelock.util.L;
+import cn.jcyh.eaglelock.util.SizeUtil;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.Consumer;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View {
+public class MainActivity extends BaseActivity<MainPresenter> implements MainContract.View, BaseQuickAdapter.OnItemClickListener {
     @BindView(R.id.rv_content)
     RecyclerView rvContent;
     @BindView(R.id.tv_devices)
@@ -40,15 +44,18 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         return R.layout.activity_main;
     }
 
+
     @Override
-    protected void createPresenter() {
-        mPresenter = new MainPresenter();
+    protected MainPresenter createPresenter() {
+        return new MainPresenter();
     }
 
     @Override
     protected void init() {
         rvContent.setLayoutManager(new MyGridLayoutManager(this, 2));
-        mAdapter = new MainAdapter(new ArrayList<LockKey>());
+        rvContent.addItemDecoration(new MainGridItemDecoration(2, SizeUtil.dp2px(16)));
+        mAdapter = new MainAdapter(null);
+        mAdapter.setOnItemClickListener(this);
         rvContent.setAdapter(mAdapter);
         MyLockAPI.getLockAPI().startBleService(this);
         RxPermissions rxPermissions = new RxPermissions(this);
@@ -71,6 +78,17 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
         mPresenter.syncDatas();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mPresenter.syncDatas();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        mPresenter.syncDatas();
+    }
 
     @Override
     public void syncDataSuccess(List<LockKey> keyList) {
@@ -96,5 +114,12 @@ public class MainActivity extends BaseActivity<MainPresenter> implements MainCon
     protected void onDestroy() {
         super.onDestroy();
         MyLockAPI.getLockAPI().stopBleService(this);
+    }
+
+    @Override
+    public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+        LockKey lockKey = (LockKey) adapter.getItem(position);
+        if (lockKey == null) return;
+        startNewActivity(LockMainActivity.class, Constant.LOCK_KEY, lockKey);
     }
 }

@@ -6,60 +6,119 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/iv_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="19dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="50dp"
+        android:src="@mipmap/log_icon_phone"
+        app:layout_constraintEnd_toStartOf="@+id/et_username_forget"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <EditText
         android:id="@+id/et_username_forget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
+        android:layout_marginBottom="8dp"
         android:layout_marginEnd="37dp"
+        android:hint="@string/input_account"
+        android:inputType="number"
+        android:paddingBottom="9dp"
+        android:textColorHint="@color/gray_a4b1c1"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_phone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_phone"
+        app:layout_constraintTop_toTopOf="@+id/iv_phone"
+        app:layout_constraintVertical_bias="0.392"/>
+
+    <ImageView
+        android:id="@+id/iv_code"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="19dp"
         android:layout_marginStart="37dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/input_phone_email"/>
+        android:layout_marginTop="29dp"
+        android:src="@mipmap/log_icon_yzm"
+        app:layout_constraintEnd_toStartOf="@+id/et_code_forget"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_username_forget"/>
+
     <EditText
         android:id="@+id/et_code_forget"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username_forget"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/input_phone_email"/>
-    <EditText
-        android:id="@+id/et_password_forget"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_username_forget"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="20dp"
-        android:hint="@string/input_phone_email"/>
+        android:layout_marginEnd="10dp"
+        android:hint="@string/vali_code"
+        android:paddingBottom="9dp"
+        android:textColorHint="@color/gray_a4b1c1"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_code"
+        app:layout_constraintEnd_toStartOf="@+id/tv_send_code_forget"
+        app:layout_constraintStart_toEndOf="@+id/iv_code"
+        app:layout_constraintTop_toTopOf="@+id/iv_code"/>
 
-    <TextView
-        android:id="@+id/tv_forget"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.953"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/et_password_forget"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="37dp"
-        android:layout_marginStart="37dp"
-        android:layout_marginTop="44dp"
-        android:gravity="center"
-        android:text="@string/regist"/>
 
     <TextView
         android:id="@+id/tv_send_code_forget"
-        app:layout_constraintBottom_toBottomOf="@+id/et_password_forget"
+        android:layout_width="116dp"
+        android:layout_height="32dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="37dp"
+        android:background="@drawable/btn_request_code_bg_shape"
+        android:gravity="center"
+        android:text="@string/send_code"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/et_code_forget"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/et_password_forget"
+        />
+
+    <ImageView
+        android:id="@+id/iv_pwd"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="8dp"
-        android:layout_marginEnd="32dp"
-        android:layout_marginStart="8dp"
-        android:text="@string/send_code"/>
+        android:layout_marginEnd="19dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="29dp"
+        android:src="@mipmap/log_icon_lock"
+        app:layout_constraintEnd_toStartOf="@+id/et_password_forget"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_code_forget"/>
+
+    <EditText
+        android:id="@+id/et_password_forget"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="37dp"
+        android:layout_marginTop="8dp"
+        android:ems="10"
+        android:hint="@string/input_new_pwd"
+        android:inputType="textPassword"
+        android:paddingBottom="9dp"
+        android:textColorHint="@color/gray_a4b1c1"
+        android:textSize="16sp"
+        app:layout_constraintBottom_toBottomOf="@+id/iv_pwd"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/iv_pwd"
+        app:layout_constraintTop_toTopOf="@+id/iv_pwd"/>
+
+    <TextView
+        android:id="@+id/tv_forget"
+        android:layout_width="0dp"
+        android:layout_height="39dp"
+        android:layout_marginEnd="37dp"
+        android:layout_marginStart="37dp"
+        android:layout_marginTop="29dp"
+        android:background="@drawable/btn_login_bg_shape"
+        android:gravity="center"
+        android:text="@string/set_new_pwd"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/et_password_forget"/>
 </android.support.constraint.ConstraintLayout>

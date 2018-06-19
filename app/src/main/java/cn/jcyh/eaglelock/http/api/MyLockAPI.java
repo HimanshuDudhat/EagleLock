@@ -198,8 +198,8 @@ public class MyLockAPI extends LockAPI {
         modifyFingerPrintPeriod(extendedBluetoothDevice, sOpenID, lockKey.getLockVersion(), lockKey.getAdminPwd(), lockKey.getLockKey(), lockKey.getLockFlagPos(), FRNo, lockKey.getStartDate(), lockKey.getEndDate(), lockKey.getAesKeystr(), lockKey.getTimezoneRawOffset());
     }
 
-    public void deleteFingerPrint(ExtendedBluetoothDevice extendedBluetoothDevice, long cardNo, LockKey lockKey) {
-        deleteFingerPrint(extendedBluetoothDevice, sOpenID, lockKey.getLockVersion(), lockKey.getAdminPwd(), lockKey.getLockKey(), lockKey.getLockFlagPos(), cardNo, lockKey.getAesKeystr());
+    public void deleteFingerPrint(ExtendedBluetoothDevice extendedBluetoothDevice, long FRNo, LockKey lockKey) {
+        deleteFingerPrint(extendedBluetoothDevice, sOpenID, lockKey.getLockVersion(), lockKey.getAdminPwd(), lockKey.getLockKey(), lockKey.getLockFlagPos(), FRNo, lockKey.getAesKeystr());
     }
 
     public void clearFingerPrint(ExtendedBluetoothDevice extendedBluetoothDevice, LockKey lockKey) {

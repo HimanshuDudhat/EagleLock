@@ -27,6 +27,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="37dp"
         android:hint="@string/input_phone_email"
+        android:inputType="number"
         android:paddingBottom="9dp"
         android:textColorHint="@color/gray_a4b1c1"
         app:layout_constraintBottom_toBottomOf="@+id/iv_phone"

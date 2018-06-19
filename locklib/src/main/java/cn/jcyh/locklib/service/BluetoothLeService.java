@@ -2380,7 +2380,7 @@ public class BluetoothLeService extends Service {
         while (dataIndex < datas.length) {
             ICCard icCard = new ICCard();
             long cardNo = DigitUtil.fourBytesToLong(Arrays.copyOfRange(datas, dataIndex, dataIndex + 4));
-            icCard.cardNumber = String.valueOf(cardNo);
+            icCard.setCardNumber(String.valueOf(cardNo));
             dataIndex += 4;
             int year = datas[dataIndex++] + 2000;
             byte month = datas[dataIndex++];
@@ -2396,7 +2396,7 @@ public class BluetoothLeService extends Service {
             timeZone.setRawOffset((int) this.timezoneOffSet);
             calendar.setTimeZone(timeZone);
             calendar.set(year, month - 1, day, hour, minute);
-            icCard.startDate = calendar.getTimeInMillis();
+            icCard.setStartDate(calendar.getTimeInMillis());
             year = datas[dataIndex++] + 2000;
             month = datas[dataIndex++];
             day = datas[dataIndex++];
@@ -2404,7 +2404,7 @@ public class BluetoothLeService extends Service {
             minute = datas[dataIndex++];
             calendar.setTimeZone(timeZone);
             calendar.set(year, month - 1, day, hour, minute);
-            icCard.endDate = calendar.getTimeInMillis();
+            icCard.setEndDate(calendar.getTimeInMillis());
             this.icCards.add(icCard);
         }
 
@@ -2418,7 +2418,7 @@ public class BluetoothLeService extends Service {
         while (dataIndex < datas.length) {
             FR fr = new FR();
             long cardNo = DigitUtil.sixBytesToLong(Arrays.copyOfRange(datas, dataIndex, dataIndex + 6));
-            fr.fingerprintNumber = String.valueOf(cardNo);
+            fr.setFingerprintNumber(String.valueOf(cardNo));
             dataIndex += 6;
             int year = datas[dataIndex++] + 2000;
             byte month = datas[dataIndex++];
@@ -2434,7 +2434,7 @@ public class BluetoothLeService extends Service {
             timeZone.setRawOffset((int) this.timezoneOffSet);
             calendar.setTimeZone(timeZone);
             calendar.set(year, month - 1, day, hour, minute);
-            fr.startDate = calendar.getTimeInMillis();
+            fr.setStartDate(calendar.getTimeInMillis());
             year = datas[dataIndex++] + 2000;
             month = datas[dataIndex++];
             day = datas[dataIndex++];
@@ -2442,7 +2442,7 @@ public class BluetoothLeService extends Service {
             minute = datas[dataIndex++];
             calendar.setTimeZone(timeZone);
             calendar.set(year, month - 1, day, hour, minute);
-            fr.endDate = calendar.getTimeInMillis();
+            fr.setEndDate(calendar.getTimeInMillis());
             this.frs.add(fr);
         }
 

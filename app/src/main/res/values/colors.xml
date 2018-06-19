@@ -7,4 +7,11 @@
     <color name="gray_a4b1c1">#a4b1c1</color>
     <color name="gray_eeeeee">#eeeeee</color>
     <color name="gray_line">#dcdcdc</color>
+    <color name="black_333333">#333333</color>
+    <color name="orange_f39800">#f39800</color>
+    <color name="gray_777777">#777777</color>
+    <color name="gray_b8c4d4">#b8c4d4</color>
+    <color name="orange_eb6100">#eb6100</color>
+    <color name="red_a40000">#a40000</color>
+    <color name="red_ea3434">#ea3434</color>
 </resources>

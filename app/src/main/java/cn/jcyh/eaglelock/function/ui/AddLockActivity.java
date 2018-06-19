@@ -17,6 +17,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 import cn.jcyh.eaglelock.R;
 import cn.jcyh.eaglelock.base.BaseActivity;
+import cn.jcyh.eaglelock.base.BasePresenter;
 import cn.jcyh.eaglelock.base.recyclerview.DividerLinearItemDecoration;
 import cn.jcyh.eaglelock.base.recyclerview.MyLinearLayoutManager;
 import cn.jcyh.eaglelock.constant.Constant;
@@ -33,9 +34,10 @@ public class AddLockActivity extends BaseActivity implements AddLockItemAdapter.
     private AddLockItemAdapter mAdapter;
     private List<ExtendedBluetoothDevice> mBluetoothDevices;
 
-    @Override
-    protected void createPresenter() {
 
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
     @Override

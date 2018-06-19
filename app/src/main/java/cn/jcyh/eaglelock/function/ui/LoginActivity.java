@@ -44,6 +44,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     CheckBox cbRememberMe;
     @BindView(R.id.tv_send_code_regist)
     TextView tvSendCodeRegist;
+    @BindView(R.id.et_username_forget)
+    EditText etUserNameForget;
+    @BindView(R.id.et_password_forget)
+    EditText etPasswordForget;
     @BindView(R.id.tv_send_code_forget)
     TextView tvSendCodeForget;
     @BindView(R.id.et_code_forget)
@@ -75,8 +79,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     }
 
     @Override
-    protected void createPresenter() {
-        mPresenter = new LoginPresenter();
+    protected LoginPresenter createPresenter() {
+        return new LoginPresenter();
     }
 
 
@@ -155,12 +159,12 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
 
     @Override
     public String getForgetUserName() {
-        return null;
+        return etUserNameForget.getText().toString().trim();
     }
 
     @Override
     public String getForgetPassword() {
-        return null;
+        return etPasswordForget.getText().toString().trim();
     }
 
     @Override
@@ -201,6 +205,14 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
         //登录成功
         startNewActivity(MainActivity.class);
         finish();
+    }
+
+    @Override
+    public void setBackPasswordSuccess() {
+        etUserNameLogin.setText(getForgetUserName());
+        etPasswordLogin.setText(getForgetPassword());
+        cbRememberMe.setChecked(true);
+        setCurrentShow(LOGIN_SHOW);
     }
 
     @OnCheckedChanged({R.id.cb_remember_me})
@@ -247,7 +259,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements Login
     public void onForgetClick(View v) {
         switch (v.getId()) {
             case R.id.tv_forget:
-
+                mPresenter.setBackPassword();
                 break;
             case R.id.tv_send_code_forget:
                 mPresenter.requestForgetCode();

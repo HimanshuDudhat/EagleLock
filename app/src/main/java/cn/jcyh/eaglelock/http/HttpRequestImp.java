@@ -14,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 import cn.jcyh.eaglelock.entity.LockKey;
+import cn.jcyh.eaglelock.entity.LockKeyboardPwd;
+import cn.jcyh.eaglelock.entity.LockPwdRecord;
 import cn.jcyh.eaglelock.entity.SyncData;
 import cn.jcyh.eaglelock.entity.User;
 import cn.jcyh.eaglelock.http.bean.HttpResult;
@@ -21,6 +23,8 @@ import cn.jcyh.eaglelock.http.bean.LockHttpResult;
 import cn.jcyh.eaglelock.http.listener.OnHttpRequestListener;
 import cn.jcyh.eaglelock.util.GsonUtil;
 import cn.jcyh.eaglelock.util.L;
+import cn.jcyh.locklib.entity.FR;
+import cn.jcyh.locklib.entity.LockRecord;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.functions.Consumer;
@@ -70,6 +74,12 @@ class HttpRequestImp implements IHttpRequest {
     }
 
     @Override
+    public void setBackPassword(String account, String pwd, int code, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> setBackPassword = mRequestService.setBackPassword(account, pwd, code);
+        enqueueVoid(setBackPassword, listener);
+    }
+
+    @Override
     public void syncDatas(String clientId, String accessToken, long lastUpdateDate, long date, OnHttpRequestListener listener) {
         Observable<Response<ResponseBody>> syncDatas = mRequestService.syncData(clientId, accessToken, lastUpdateDate, date);
         lockEnqueue(syncDatas, SyncData.class, listener);
@@ -99,6 +109,156 @@ class HttpRequestImp implements IHttpRequest {
                 lockKey.getFirmwareRevision(),
                 System.currentTimeMillis());
         lockEnqueueVoid(initLock, listener);
+    }
+
+    @Override
+    public void sendKey(String clientId, String accessToken, int lockId, String receiverUsername, long startDate, long endDate, String remarks, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> sendKey = mRequestService.sendKey(clientId, accessToken, lockId, receiverUsername, startDate, endDate, remarks, date);
+        lockEnqueueVoid(sendKey, listener);
+    }
+
+    @Override
+    public void getPwd(String clientId, String accessToken, int lockId, int keyboardPwdVersion, int keyboardPwdType, long startTime, long endDate, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> getPwd = mRequestService.getPwd(clientId, accessToken, lockId, keyboardPwdVersion, keyboardPwdType, startTime, endDate, date);
+        lockEnqueue(getPwd, LockKeyboardPwd.class, listener);
+    }
+
+    @Override
+    public void customPwd(String clientId, String accessToken, int lockId, String keyboardPwd, long startDate, long endDate, int addType, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> customPwd =  mRequestService.customPwd(clientId, accessToken, lockId, keyboardPwd, startDate, endDate, addType, date);
+        lockEnqueue(customPwd, LockKeyboardPwd.class, listener);
+    }
+
+    @Override
+    public void getLockKeys(String clientId, String accessToken, int lockId, int pageNo, int pageSize, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> getLockKeys = mRequestService.getLockKeys(clientId, accessToken, lockId, pageNo, pageSize, System.currentTimeMillis());
+        lockEnqueueList(getLockKeys, LockKey.class, listener);
+    }
+
+    @Override
+    public void delKey(String clientId, String accessToken, int keyId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> delKey = mRequestService.delKey(clientId, accessToken, keyId, date);
+        lockEnqueueVoid(delKey, listener);
+    }
+
+    @Override
+    public void resetKey(String clientId, String accessToken, int keyId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> resetKey = mRequestService.resetKey(clientId, accessToken, keyId, date);
+        lockEnqueueVoid(resetKey, listener);
+    }
+
+    @Override
+    public void delAllKeys(String clientId, String accessToken, int lockId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> delAllKeys = mRequestService.delAllKeys(clientId, accessToken, lockId, date);
+        lockEnqueueVoid(delAllKeys, listener);
+    }
+
+    @Override
+    public void getPwdsByLock(String clientId, String accessToken, int lockId, int pageNo, int pageSize, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> getPwdsByLock = mRequestService.getPwdsByLock(clientId, accessToken, lockId, pageNo, pageSize, date);
+        lockEnqueueList(getPwdsByLock, LockPwdRecord.class, listener);
+    }
+
+    @Override
+    public void resetPwd(String clientId, String accessToken, int lockId, String pwdInfo, long timestamp, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> resetPwd = mRequestService.resetKeyboardPwd(clientId, accessToken, lockId, pwdInfo, timestamp, date);
+        lockEnqueueVoid(resetPwd, listener);
+    }
+
+    @Override
+    public void freezeKey(String clientId, String accessToken, int keyId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> freezeKey = mRequestService.freezeKey(clientId, accessToken, keyId, date);
+        lockEnqueueVoid(freezeKey, listener);
+    }
+
+    @Override
+    public void unFreezeKey(String clientId, String accessToken, int keyId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> freezeKey = mRequestService.unFreezeKey(clientId, accessToken, keyId, date);
+        lockEnqueueVoid(freezeKey, listener);
+    }
+
+    @Override
+    public void lockRename(String clientId, String accessToken, int lockId, String lockAlias, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> lockRename = mRequestService.lockRename(clientId, accessToken, lockId, lockAlias, date);
+        lockEnqueueVoid(lockRename, listener);
+    }
+
+    @Override
+    public void changeAdminKeyboardPwd(String clientId, String accessToken, int lockId, String password, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> changeAdminKeyboardPwd = mRequestService.changeAdminKeyboardPwd(clientId, accessToken, lockId, password, date);
+        lockEnqueueVoid(changeAdminKeyboardPwd, listener);
+    }
+
+    @Override
+    public void getICs(String clientId, String accessToken, int lockId, int pageNo, int pageSize, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> getICs = mRequestService.getICs(clientId, accessToken, lockId, pageNo, pageSize, date);
+        lockEnqueueList(getICs, ICCard.class, listener);
+    }
+
+    @Override
+    public void deleteIC(String clientId, String accessToken, int lockId, int cardId, int deleteType, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> deleteIC = mRequestService.deleteIC(clientId, accessToken, lockId, cardId, deleteType, date);
+        lockEnqueueVoid(deleteIC, listener);
+    }
+
+    @Override
+    public void addIC(String clientId, String accessToken, int lockId, String cardNumber, long startDate, long endDate, int addType, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> addIC = mRequestService.addIC(clientId, accessToken, lockId, cardNumber, startDate, endDate, addType, date);
+        lockEnqueueVoid(addIC, listener);
+    }
+
+    @Override
+    public void clearICs(String clientId, String accessToken, int lockId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> clearICs = mRequestService.clearICs(clientId, accessToken, lockId, date);
+        lockEnqueueVoid(clearICs, listener);
+    }
+
+    @Override
+    public void getFingerprints(String clientId, String accessToken, int lockId, int pageNo, int pageSize, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> getFingerprints = mRequestService.getFingerprints(clientId, accessToken, lockId, pageNo, pageSize, date);
+        lockEnqueueList(getFingerprints, FR.class, listener);
+    }
+
+    @Override
+    public void deleteFingerprint(String clientId, String accessToken, int lockId, int fingerprintId, int deleteType, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> deleteFingerprint = mRequestService.deleteFingerprint(clientId, accessToken, lockId, fingerprintId, deleteType, date);
+        lockEnqueueVoid(deleteFingerprint, listener);
+    }
+
+    @Override
+    public void addFingerprint(String clientId, String accessToken, int lockId, String fingerprintNumber, long startDate, long endDate, int addType, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> addFingerprint = mRequestService.addFingerprint(clientId, accessToken, lockId, fingerprintNumber, startDate, endDate, addType, date);
+        lockEnqueueVoid(addFingerprint, listener);
+    }
+
+    @Override
+    public void clearFingerprints(String clientId, String accessToken, int lockId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> clearFingerprints = mRequestService.clearFingerprints(clientId, accessToken, lockId, date);
+        lockEnqueueVoid(clearFingerprints, listener);
+    }
+
+    @Override
+    public void uploadLockRecords(String clientId, String accessToken, int lockId, String records, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> uploadLockRecords = mRequestService.uploadLockRecords(clientId, accessToken, lockId, records, date);
+        lockEnqueueVoid(uploadLockRecords, listener);
+    }
+
+    @Override
+    public void getLockRecords(String clientId, String accessToken, int lockId, long startDate, long endDate, int pageNo, int pageSize, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> getLockRecords = mRequestService.getLockRecords(clientId, accessToken, lockId, startDate, endDate, pageNo, pageSize, date);
+        lockEnqueueList(getLockRecords, LockRecord.class, listener);
+    }
+
+    @Override
+    public void unAuthKeyUser(String clientId, String accessToken, int lockId, int keyId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> unAuthKeyUser = mRequestService.unAuthKeyUser(clientId, accessToken, lockId, keyId, date);
+        lockEnqueueVoid(unAuthKeyUser, listener);
+    }
+
+    @Override
+    public void authKeyUser(String clientId, String accessToken, int lockId, int keyId, long date, OnHttpRequestListener listener) {
+        Observable<Response<ResponseBody>> authKeyUser = mRequestService.authKeyUser(clientId, accessToken, lockId, keyId, date);
+        lockEnqueueVoid(authKeyUser, listener);
     }
 
     /**

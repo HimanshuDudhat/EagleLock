@@ -32,7 +32,6 @@
                 android:src="@mipmap/list_icon_user"/>
 
             <EditText
-                android:visibility="invisible"
                 android:id="@+id/et_search"
                 android:layout_width="0dp"
                 android:layout_height="21dp"
@@ -43,7 +42,8 @@
                 android:gravity="center"
                 android:hint="@string/search"
                 android:textColor="@color/colorAccent"
-                android:textSize="12sp"/>
+                android:textSize="12sp"
+                android:visibility="invisible"/>
 
             <ImageButton
                 android:id="@+id/ibtn_search"
@@ -103,8 +103,8 @@
         android:id="@+id/rv_content"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="15dp"
-        tools:layout_editor_absoluteX="8dp"
-        tools:layout_editor_absoluteY="8dp"/>
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="7dp"/>
 
 </LinearLayout>

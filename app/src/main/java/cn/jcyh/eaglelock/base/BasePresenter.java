@@ -7,6 +7,10 @@ public abstract class BasePresenter<V extends IBaseView, M extends BaseModel> im
     protected V mView;
     protected M mModel;
 
+    protected BasePresenter() {
+        mModel = attacheModel();
+    }
+
     @Override
     public void attachView(V view) {
         mView = view;
@@ -17,13 +21,4 @@ public abstract class BasePresenter<V extends IBaseView, M extends BaseModel> im
         mView = null;
     }
 
-    @Override
-    public void attachModel(M model) {
-        mModel = model;
-    }
-
-    @Override
-    public void detachModel() {
-        mModel = null;
-    }
 }

@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="send_pwd_type">
+        <item>@string/forver</item>
+        <item>@string/limit_time</item>
+        <item>@string/once</item>
+        <item>@string/clear</item>
+        <item>@string/custom</item>
+        <item>@string/repeat</item>
+    </string-array>
+    <string name="forver">永久</string>
+    <string name="limit_time">限时</string>
+    <string name="once">单次</string>
+    <string name="clear">清空</string>
+    <string name="custom">自定义</string>
+    <string name="repeat">循环</string>
+    <string-array name="operate">
+        <item>点击开门</item>
+        <item>设置管理码</item>
+        <item>设置清空码</item>
+        <item>设置锁时间</item>
+        <item>重置键盘密码</item>
+        <item>重置电子钥匙</item>
+        <item>重置锁</item>
+        <item>获取操作日志</item>
+        <item>获取锁时间</item>
+        <item>发送电子钥匙</item>
+        <item>获取密码</item>
+
+        <item>车位锁升(仅限车位锁)</item>
+        <item>车位锁降</item>
+        <item>固件升级</item>
+    </string-array>
+    <string-array name="week">
+        <item>周末</item>
+        <item>每日</item>
+        <item>工作日</item>
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+    </string-array>
+</resources>

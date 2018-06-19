@@ -1,10 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          xmlns:tools="http://schemas.android.com/tools"
           package="cn.jcyh.eaglelock">
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission
+        android:name="android.permission.WRITE_SETTINGS"
+        tools:ignore="ProtectedPermissions"/>
 
     <application
         android:name=".MyApp"
@@ -14,14 +20,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/MyAppTheme">
-        <activity android:name=".function.ui.MainActivity">
+        <activity
+            android:name=".function.ui.MainActivity"
+            android:launchMode="singleTask">
         </activity>
         <activity android:name=".function.ui.LoginActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
-
-                <category android:name="android.intent.category.LAUNCHER"/>
-            </intent-filter>
         </activity>
         <activity android:name=".function.ui.AddLockHintActivity">
         </activity>
@@ -30,6 +33,40 @@
 
         <service android:name="cn.jcyh.locklib.service.BluetoothLeService"/>
         <service android:name="cn.jcyh.locklib.service.DfuService"/>
+
+        <activity android:name=".function.ui.LockMainActivity">
+        </activity>
+        <activity android:name=".function.ui.SendKeyActivity">
+        </activity>
+        <activity android:name=".function.ui.SendPwdActivity">
+        </activity>
+        <activity android:name=".function.ui.KeyManageActivity">
+        </activity>
+        <activity android:name=".function.ui.PwdManageActivity">
+        </activity>
+        <activity android:name=".function.ui.ICManageActivity">
+        </activity>
+        <activity android:name=".function.ui.RecordManageActivity">
+        </activity>
+        <activity android:name=".function.ui.FingerprintActivity">
+        </activity>
+        <activity android:name=".function.ui.SettingActivity">
+        </activity>
+        <activity android:name=".function.ui.GuideActivity">
+        </activity>
+        <activity android:name=".function.ui.WelcomeActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
+
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".function.ui.LockClockActivity">
+        </activity>
+        <activity android:name=".function.ui.KeyInfoActivity">
+        </activity>
+        <activity android:name=".function.ui.AddICActivity">
+        </activity>
     </application>
 
 </manifest>

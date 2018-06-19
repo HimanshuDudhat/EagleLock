@@ -44,8 +44,8 @@ public interface RequestService {
     //设置新密码（忘记密码）
     @FormUrlEncoded
     @POST("Locks/SetBackPass")
-    Observable<Response<ResponseBody>> sendNewPwd(@Field("account") String account, @Field
-            ("pwd") String pwd, @Field("code") String code);
+    Observable<Response<ResponseBody>> setBackPassword(@Field("account") String account, @Field
+            ("pwd") String pwd, @Field("code") int code);
 
     /**
      * 同步钥匙数据 APP第一次同步数据，不需要传lastUpdateDate，服务端会返回全量的钥匙数据。

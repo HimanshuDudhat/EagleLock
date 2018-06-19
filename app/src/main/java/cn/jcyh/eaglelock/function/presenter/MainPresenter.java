@@ -12,20 +12,34 @@ import cn.jcyh.eaglelock.function.model.MainModel;
 import cn.jcyh.eaglelock.http.listener.OnHttpRequestListener;
 import cn.jcyh.eaglelock.util.L;
 
-/**
- * Created by jogger on 2018/6/12.
- */
 public class MainPresenter extends BasePresenter<MainContract.View, MainContract.Model> implements MainContract.Presenter {
-    public MainPresenter() {
-        attachModel(new MainModel());
-    }
 
     @Override
     public void syncDatas() {
         final User user = ControlCenter.getControlCenter().getUserInfo();
         if (user == null) return;
-//        ControlCenter.getControlCenter().getLastSyncDate()
-        mModel.syncDatas(0, new OnHttpRequestListener<SyncData>() {
+//        L.e("---------token:" + user.getAccess_token());
+        final List<LockKey> lockKeys = ControlCenter.getControlCenter().getLockKeys();
+        long lastUpdateDate=0;
+//        if (lockKeys != null && lockKeys.size() != 0) {
+//            //判断是不是上次登录的用户
+////            L.e("--------lockKey getAccessToken" + lockKeys.get(0).getAccessToken());
+////            L.e("----------" + (lockKeys.get(0).getAccessToken().equals(user.getAccess_token())));
+//            if (!lockKeys.get(0).getAccessToken().equals(user.getAccess_token())) {
+//                lastUpdateDate = 0;
+////                ControlCenter.getControlCenter().saveLockKeys(null);
+//            } else {
+//                mView.syncDataSuccess(lockKeys);
+//                return;
+//            }
+//        } else {
+//            lastUpdateDate = 0;
+//        }
+        sync(user, lastUpdateDate);
+    }
+
+    private void sync(final User user, long lastUpdateDate) {
+        mModel.syncDatas(lastUpdateDate, new OnHttpRequestListener<SyncData>() {
             @Override
             public void onFailure(int errorCode) {
                 L.e("------------errorCode:" + errorCode);
@@ -47,5 +61,10 @@ public class MainPresenter extends BasePresenter<MainContract.View, MainContract
                 mView.syncDataSuccess(keyList);
             }
         });
+    }
+
+    @Override
+    public MainContract.Model attacheModel() {
+        return new MainModel();
     }
 }

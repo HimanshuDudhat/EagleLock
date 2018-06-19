@@ -12,6 +12,7 @@ import cn.jcyh.eaglelock.function.model.LoginModel;
 import cn.jcyh.eaglelock.http.MyServerJNI;
 import cn.jcyh.eaglelock.http.listener.OnHttpRequestListener;
 import cn.jcyh.eaglelock.util.L;
+import cn.jcyh.eaglelock.util.T;
 import cn.jcyh.eaglelock.util.Tool;
 import cn.jcyh.eaglelock.util.Util;
 import cn.jcyh.locklib.constant.HttpErrorCode;
@@ -24,7 +25,6 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
     private final ControlCenter mControlCenter;
 
     public LoginPresenter() {
-        attachModel(new LoginModel());
         mControlCenter = ControlCenter.getControlCenter();
     }
 
@@ -43,7 +43,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
         final String loginUserName = mView.getLoginUserName();
         final String loginPassword = mView.getLoginPassword();
         if (TextUtils.isEmpty(loginUserName) || TextUtils.isEmpty(loginPassword)) {
-            mView.showToast(R.string.input_can_not_null);
+            T.show(R.string.input_can_not_null);
             return;
         }
         mView.showProgressDialog();
@@ -52,6 +52,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
             public void onFailure(int errorCode) {
                 if (mView == null) return;
                 mView.cancelProgressDialog();
+                T.show(R.string.connect_failure, errorCode);
                 L.e("--------errorCode" + errorCode);
             }
 
@@ -76,11 +77,11 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
         final String registPassword = mView.getRegistPassword();
         int code = mView.getRegistCode();
         if (TextUtils.isEmpty(registUserName) || TextUtils.isEmpty(registPassword) || code == -1) {
-            mView.showToast(R.string.input_can_not_null);
+            T.show(R.string.input_can_not_null);
             return;
         }
         if (code == -2) {
-            mView.showToast(R.string.input_error);
+           T.show(R.string.input_error);
             return;
         }
         mModel.regist(Config.EAGLEKING + registUserName, registPassword, code, new OnHttpRequestListener<Boolean>() {
@@ -107,12 +108,12 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
     public void requestRegistCode() {
         String account = mView.getRegistUserName();
         if (TextUtils.isEmpty(account)) {
-            mView.showToast(R.string.input_can_not_null);
+           T.show(R.string.input_can_not_null);
             return;
         }
         String telRegex = Util.getApp().getString(R.string.regex_phone);
         if (!account.matches(telRegex)) {
-            mView.showToast(R.string.phone_no_match);
+           T.show(R.string.phone_no_match);
             return;
         }
         long time = System.currentTimeMillis();
@@ -123,7 +124,7 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
                 L.e("---------onFailure" + errorCode);
                 switch (errorCode) {
                     case HttpErrorCode.USER_EXISTS:
-                        mView.showToast(R.string.user_registed);
+                       T.show(R.string.user_registed);
                         break;
                 }
             }
@@ -140,19 +141,17 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
 
     @Override
     public void requestForgetCode() {
-        String account = mView.getRegistUserName();
+        String account = mView.getForgetUserName();
         if (TextUtils.isEmpty(account)) {
-            mView.showToast(R.string.input_can_not_null);
+           T.show(R.string.input_can_not_null);
             return;
         }
-        int code = mView.getRegistCode();
         String telRegex = Util.getApp().getString(R.string.regex_phone);
         if (!account.matches(telRegex)) {
-            mView.showToast(R.string.phone_no_match);
+           T.show(R.string.phone_no_match);
             return;
         }
         long time = System.currentTimeMillis();
-        L.e("------" + MyServerJNI.getServerKey());
         String sign = Tool.MD5(time + MyServerJNI.getServerKey());
         mModel.sendForgetCode(account, sign, time, new OnHttpRequestListener<Boolean>() {
             @Override
@@ -173,4 +172,40 @@ public class LoginPresenter extends BasePresenter<LoginContract.View, LoginContr
         ControlCenter.getControlCenter().saveIsAutoLogin(autoLogin);
     }
 
+    @Override
+    public void setBackPassword() {
+        final String forgetUserName = mView.getForgetUserName();
+        final String forgetPassword = mView.getForgetPassword();
+        int code = mView.getRegistCode();
+        if (TextUtils.isEmpty(forgetUserName) || TextUtils.isEmpty(forgetPassword) || code == -1) {
+           T.show(R.string.input_can_not_null);
+            return;
+        }
+        if (code == -2) {
+           T.show(R.string.input_error);
+            return;
+        }
+        mView.showProgressDialog();
+        mModel.setBackPassword(forgetUserName, forgetPassword, code, new OnHttpRequestListener<Boolean>() {
+            @Override
+            public void onFailure(int errorCode) {
+
+            }
+
+            @Override
+            public void onSuccess(Boolean aBoolean) {
+                if (mView == null) return;
+                mView.cancelProgressDialog();
+                ControlCenter controlCenter = ControlCenter.getControlCenter();
+                controlCenter.saveUserAccount(Config.EAGLEKING + forgetUserName);
+                controlCenter.saveUserPwd(forgetPassword);
+                mView.setBackPasswordSuccess();
+            }
+        });
+    }
+
+    @Override
+    public LoginContract.Model attacheModel() {
+        return new LoginModel();
+    }
 }

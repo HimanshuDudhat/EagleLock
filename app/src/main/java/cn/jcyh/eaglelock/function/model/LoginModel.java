@@ -35,4 +35,9 @@ public class LoginModel implements LoginContract.Model {
     public void regist(String userName, String pwd, int code, OnHttpRequestListener<Boolean> listener) {
         mUserHttpAction.regist(userName, pwd, code, listener);
     }
+
+    @Override
+    public void setBackPassword(String userName, String pwd, int code, OnHttpRequestListener<Boolean> listener) {
+        mUserHttpAction.setBackPassword(userName, pwd, code, listener);
+    }
 }

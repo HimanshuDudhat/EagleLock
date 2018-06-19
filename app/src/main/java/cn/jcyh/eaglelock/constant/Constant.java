@@ -6,12 +6,13 @@ package cn.jcyh.eaglelock.constant;
 public class Constant {
     public static final String CLIENT_ID = "CLIENT_ID";
     public static final String CLIENT_SECRET = "CLIENT_SECRET";
+    public static final String IS_FIRST_INTO = "is_first_into";
     public static final String ACCOUNT = "account";
     public static final String PWD = "pwd";
     public static final String AUTO_LOGIN = "auto_login";
     public static final String USER_INFO = "user_info";
     public static final String KEY_LIST = "key_list";
-    public static final String LAST_SYNC_DATE="last_sync_date";
+    public static final String LAST_SYNC_DATE = "last_sync_date";
 
     private final static String PACKAGE_NAME = "cn.jcyh.eaglelock";
     public static final String ACTION_ADD_ADMIN = PACKAGE_NAME + "lock_add_admin";
@@ -37,8 +38,19 @@ public class Constant {
 
     public static final String ACTION_LOCK_GET_TIME = PACKAGE_NAME + "action_lock_get_time";
     public static final String ACTION_LOCK_SYNC_TIME = PACKAGE_NAME + "action_lock_sync_time";
+
+
     public final static String DEVICE = "device";
+    public final static String LOCK_KEY = "lock_key";
     public final static String ERROR_MSG = "error_msg";
-
-
+    public static final String POSITION = "position";
+    public static final String DATE = "date";
+    public static final String START_DATE = "start_date";
+    public static final String END_DATE = "end_date";
+    public static final String IC_CARD_NUMBER = "ic_card_number";
+    public static final String TYPE = "type";
+    public static final String FRNO = "FRNO";
+    public static final String STATUS = "status";
+    public static final String MAX_VALIDATE = "max_validate";
+    public static final String VALIDATE = "validate";
 }

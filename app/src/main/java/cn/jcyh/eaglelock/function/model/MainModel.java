@@ -10,6 +10,6 @@ import cn.jcyh.eaglelock.http.listener.OnHttpRequestListener;
 public class MainModel implements MainContract.Model {
     @Override
     public void syncDatas(long lastUpdateDate, OnHttpRequestListener listener) {
-        LockHttpAction.geHttpAction().syncDatas(lastUpdateDate, listener);
+        LockHttpAction.getHttpAction().syncDatas(lastUpdateDate, listener);
     }
 }

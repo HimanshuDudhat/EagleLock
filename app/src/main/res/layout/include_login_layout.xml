@@ -24,6 +24,7 @@
         android:layout_marginEnd="37dp"
         android:layout_marginStart="19dp"
         android:hint="@string/input_account"
+        android:inputType="number"
         android:paddingBottom="9dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_phone"
         app:layout_constraintEnd_toEndOf="parent"
@@ -49,6 +50,7 @@
         android:layout_marginBottom="8dp"
         android:layout_marginEnd="37dp"
         android:hint="@string/input_pwd"
+        android:inputType="textPassword"
         android:paddingBottom="9dp"
         app:layout_constraintBottom_toBottomOf="@+id/iv_pwd"
         app:layout_constraintEnd_toEndOf="parent"
@@ -69,6 +71,7 @@
         android:textSize="14sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/et_password_login"/>
+
     <TextView
         android:id="@+id/tv_login"
         android:layout_width="0dp"
@@ -82,9 +85,9 @@
         android:textColor="@color/white"
         android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.554"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/cb_remember_me"/>
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

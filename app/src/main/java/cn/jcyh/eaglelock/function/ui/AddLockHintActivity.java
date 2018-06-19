@@ -5,12 +5,14 @@ import android.view.View;
 import butterknife.OnClick;
 import cn.jcyh.eaglelock.R;
 import cn.jcyh.eaglelock.base.BaseActivity;
+import cn.jcyh.eaglelock.base.BasePresenter;
 
 public class AddLockHintActivity extends BaseActivity {
 
-    @Override
-    protected void createPresenter() {
 
+    @Override
+    protected BasePresenter createPresenter() {
+        return null;
     }
 
     @Override

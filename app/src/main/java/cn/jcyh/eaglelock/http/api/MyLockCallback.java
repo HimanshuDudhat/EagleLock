@@ -101,7 +101,6 @@ public class MyLockCallback implements LockCallback {
         }
         //根据accessToken和lockmac获取钥匙
         List<LockKey> keys = mControlCenter.getLockKeys();
-        L.e("----" + (keys == null && Operation.ADD_ADMIN.equals(MyLockAPI.sBleSession.getOperation())));
 //        if (keys == null && Operation.ADD_ADMIN.equals(MyLockAPI.sBleSession.getOperation()))
 //            return;
         LockKey localKey = null;
@@ -136,8 +135,8 @@ public class MyLockCallback implements LockCallback {
             case Operation.CUSTOM_PWD:
                 if (localKey == null) return;
                 Bundle argments = MyLockAPI.sBleSession.getArgments();
-                localKey.setStartDate(argments.getLong("startTime"));
-                localKey.setEndDate(argments.getLong("endTime"));
+                localKey.setStartDate(argments.getLong(Constant.START_DATE));
+                localKey.setEndDate(argments.getLong(Constant.END_DATE));
                 lockAPI.addPeriodKeyboardPassword(extendedBluetoothDevice, argments.getString("pwd"), localKey);
                 break;
 //                case SET_DELETE_PASSWORD://删除码
@@ -163,11 +162,11 @@ public class MyLockCallback implements LockCallback {
                 break;
             case Operation.DELETE_IC_CARD:
                 if (localKey == null) return;
-                lockAPI.deleteICCard(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong("cardNo"), localKey);
+                lockAPI.deleteICCard(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong(Constant.IC_CARD_NUMBER), localKey);
                 break;
             case Operation.MODIFY_IC_PERIOD:
                 if (localKey == null) return;
-                lockAPI.modifyICPeriod(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong("cardNo"), localKey);
+                lockAPI.modifyICPeriod(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong(Constant.IC_CARD_NUMBER), localKey);
                 break;
             case Operation.SEARCH_IC_NUMBER:
                 if (localKey == null) return;
@@ -183,10 +182,13 @@ public class MyLockCallback implements LockCallback {
                 break;
             case Operation.MODIFY_FINGERPRINT_PERIOD:
                 if (localKey == null) return;
-                lockAPI.modifyFingerPrintPeriod(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong("FRNo"), localKey);
+                lockAPI.modifyFingerPrintPeriod(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong(Constant.FRNO), localKey);
                 break;
             case Operation.CLEAR_FINGERPRINTS:
                 lockAPI.clearFingerPrint(extendedBluetoothDevice, localKey);
+                break;
+            case Operation.DELETE_FINGERPRINT:
+                lockAPI.deleteFingerPrint(extendedBluetoothDevice, MyLockAPI.sBleSession.getArgments().getLong(Constant.FRNO), localKey);
                 break;
             case Operation.GET_OPERATE_LOG://获取操作日志
                 lockAPI.getOperateLog(extendedBluetoothDevice, localKey);
@@ -250,7 +252,7 @@ public class MyLockCallback implements LockCallback {
         L.e("-----------onSetAdminKeyboardPassword" + adminCode);
         Intent intent = new Intent(Constant.ACTION_SET_ADMIN_PWD);
         intent.putExtra(Constant.ERROR_MSG, error);
-        intent.putExtra("password", adminCode);
+        intent.putExtra(Constant.PWD, adminCode);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
@@ -281,7 +283,7 @@ public class MyLockCallback implements LockCallback {
         L.e("-----------onGetLockTime");
         Intent intent = new Intent(Constant.ACTION_LOCK_GET_TIME);
         intent.putExtra(Constant.ERROR_MSG, error);
-        intent.putExtra("date", date);
+        intent.putExtra(Constant.DATE, date);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
@@ -319,7 +321,7 @@ public class MyLockCallback implements LockCallback {
     @Override
     public void onAddKeyboardPassword(ExtendedBluetoothDevice extendedBluetoothDevice, int var2, String customPwd,
                                       long startTime, long endTime, Error error) {
-        L.e("-----------onAddKeyboardPassword");
+        L.e("-----------onAddKeyboardPassword" + customPwd);
         Intent intent = new Intent(Constant.ACTION_CUSTOM_PWD);
         intent.putExtra(Constant.ERROR_MSG, error);
         mLocalBroadcastManager.sendBroadcast(intent);
@@ -375,10 +377,10 @@ public class MyLockCallback implements LockCallback {
         //onAddICCard2--9--1036620029
         L.e("-----------onAddICCard" + status + "--" + battery + "--" + cardNo);
         Intent intent = new Intent(Constant.ACTION_LOCK_IC_CARD);
-        intent.putExtra("type", Constant.TYPE_ADD_IC_CARD);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_ADD_IC_CARD);
         intent.putExtra(Constant.ERROR_MSG, error);
-        intent.putExtra("status", status);
-        intent.putExtra("cardNo", cardNo);
+        intent.putExtra(Constant.STATUS, status);
+        intent.putExtra(Constant.IC_CARD_NUMBER, cardNo);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
@@ -386,10 +388,10 @@ public class MyLockCallback implements LockCallback {
     public void onModifyICCardPeriod(ExtendedBluetoothDevice extendedBluetoothDevice, int battery, long cardNo, long startDate, long endDate, Error error) {
         L.e("-----------onModifyICCardPeriod" + startDate + "-->" + endDate);
         Intent intent = new Intent(Constant.ACTION_LOCK_IC_CARD);
-        intent.putExtra("type", Constant.TYPE_MODIFY_IC_CARD);
-        intent.putExtra("cardNo", cardNo);
-        intent.putExtra("startDate", startDate);
-        intent.putExtra("endDate", endDate);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_MODIFY_IC_CARD);
+        intent.putExtra(Constant.IC_CARD_NUMBER, cardNo);
+        intent.putExtra(Constant.START_DATE, startDate);
+        intent.putExtra(Constant.END_DATE, endDate);
         intent.putExtra(Constant.ERROR_MSG, error);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
@@ -398,9 +400,9 @@ public class MyLockCallback implements LockCallback {
     public void onDeleteICCard(ExtendedBluetoothDevice extendedBluetoothDevice, int battery, long cardNo, Error error) {
         L.e("-----------onDeleteICCard");
         Intent intent = new Intent(Constant.ACTION_LOCK_IC_CARD);
-        intent.putExtra("type", Constant.TYPE_DELETE_IC_CARD);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_DELETE_IC_CARD);
         intent.putExtra(Constant.ERROR_MSG, error);
-        intent.putExtra("cardNo", cardNo);
+        intent.putExtra(Constant.IC_CARD_NUMBER, cardNo);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
@@ -408,7 +410,7 @@ public class MyLockCallback implements LockCallback {
     public void onClearICCard(ExtendedBluetoothDevice extendedBluetoothDevice, int battery, Error error) {
         L.e("-----------onClearICCard");
         Intent intent = new Intent(Constant.ACTION_LOCK_IC_CARD);
-        intent.putExtra("type", Constant.TYPE_CLEAR_IC_CARD);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_CLEAR_IC_CARD);
         intent.putExtra(Constant.ERROR_MSG, error);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
@@ -437,11 +439,11 @@ public class MyLockCallback implements LockCallback {
     public void onAddFingerPrint(ExtendedBluetoothDevice extendedBluetoothDevice, int status, int bery, long fingerPrintNo, int maxVail, Error error) {
         L.e("-----------onAddFingerPrint:" + "status:" + status + "-->fingerPrintNo:" + fingerPrintNo + "-->maxVail:" + maxVail + "error:" + error);
         Intent intent = new Intent(Constant.ACTION_LOCK_FINGERPRINT);
-        intent.putExtra("type", Constant.TYPE_ADD_FINGERPRINT);
-        intent.putExtra("FRNo", fingerPrintNo);
-        intent.putExtra("status", status);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_ADD_FINGERPRINT);
+        intent.putExtra(Constant.FRNO, fingerPrintNo);
+        intent.putExtra(Constant.STATUS, status);
         intent.putExtra(Constant.ERROR_MSG, error);
-        intent.putExtra("maxVail", maxVail);
+        intent.putExtra(Constant.MAX_VALIDATE, maxVail);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
@@ -454,10 +456,10 @@ public class MyLockCallback implements LockCallback {
                                         int maxVail, Error error) {
         L.e("-----------onFingerPrintCollection" + vail + "--:" + maxVail);//1--:4
         Intent intent = new Intent(Constant.ACTION_LOCK_FINGERPRINT);
-        intent.putExtra("type", Constant.TYPE_COLLECTION_FINGERPRINT);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_COLLECTION_FINGERPRINT);
         intent.putExtra(Constant.ERROR_MSG, error);
-        intent.putExtra("vail", vail);
-        intent.putExtra("maxVail", maxVail);
+        intent.putExtra(Constant.VALIDATE, vail);
+        intent.putExtra(Constant.MAX_VALIDATE, maxVail);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
 
@@ -465,10 +467,10 @@ public class MyLockCallback implements LockCallback {
     public void onModifyFingerPrintPeriod(ExtendedBluetoothDevice extendedBluetoothDevice, int battery, long FRNo, long startDate, long endDate, Error error) {
         L.e("-----------onModifyFingerPrintPeriod");
         Intent intent = new Intent(Constant.ACTION_LOCK_FINGERPRINT);
-        intent.putExtra("type", Constant.TYPE_MODIFY_FINGERPRINT);
-        intent.putExtra("FRNo", FRNo);
-        intent.putExtra("startDate", startDate);
-        intent.putExtra("endDate", endDate);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_MODIFY_FINGERPRINT);
+        intent.putExtra(Constant.FRNO, FRNo);
+        intent.putExtra(Constant.START_DATE, startDate);
+        intent.putExtra(Constant.END_DATE, endDate);
         intent.putExtra(Constant.ERROR_MSG, error);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
@@ -482,7 +484,7 @@ public class MyLockCallback implements LockCallback {
     public void onClearFingerPrint(ExtendedBluetoothDevice extendedBluetoothDevice, int battery, Error error) {
         L.e("-----------onClearFingerPrint");
         Intent intent = new Intent(Constant.ACTION_LOCK_FINGERPRINT);
-        intent.putExtra("type", Constant.TYPE_CLEAR_FINGERPRINT);
+        intent.putExtra(Constant.TYPE, Constant.TYPE_CLEAR_FINGERPRINT);
         intent.putExtra(Constant.ERROR_MSG, error);
         mLocalBroadcastManager.sendBroadcast(intent);
     }
@@ -588,7 +590,7 @@ public class MyLockCallback implements LockCallback {
             key.setHardwareRevision(hardwareRevision);
             key.setFirmwareRevision(firmwareRevision);
             T.show("锁添加成功，正在上传服务端进行初始化操作");
-            LockHttpAction.geHttpAction().initLock(key, new OnHttpRequestListener<Boolean>() {
+            LockHttpAction.getHttpAction().initLock(key, new OnHttpRequestListener<Boolean>() {
                 @Override
                 public void onFailure(int errorCode) {
 

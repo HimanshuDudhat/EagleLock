@@ -11,7 +11,7 @@ import cn.jcyh.locklib.entity.LockVersion;
  * Created by Administrator on 2016/9/6 0006.
  */
 public class LockKey implements Parcelable {
-
+    private static final String TYPE_ADMIN = "110301";
     private String accessToken;//访问令牌
     private int lockId;//锁id
     private int keyId;//钥匙id
@@ -120,7 +120,7 @@ public class LockKey implements Parcelable {
         dest.writeString(userType);
         dest.writeString(lockName);
         dest.writeString(lockAlias);
-        dest.writeByte((byte) ("110301".equals(userType) ? 1 : 0));
+        dest.writeByte((byte) (TYPE_ADMIN.equals(userType) ? 1 : 0));
         dest.writeString(lockKey);
         dest.writeString(lockMac);
         dest.writeInt(lockFlagPos);
@@ -201,7 +201,7 @@ public class LockKey implements Parcelable {
     }
 
     public boolean isAdmin() {
-        return "110301".equals(userType);
+        return TYPE_ADMIN.equals(userType);
     }
 
     public void setAdmin(boolean admin) {
